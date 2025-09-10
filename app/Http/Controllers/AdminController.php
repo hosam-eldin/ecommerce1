@@ -11,14 +11,13 @@ use Laravel\Fortify\Actions\CanonicalizeUsername;
 use Laravel\Fortify\Actions\EnsureLoginIsNotThrottled;
 use Laravel\Fortify\Actions\PrepareAuthenticatedSession;
 use App\Actions\Fortify\RedirectIfTwoFactorAuthenticatable;
-// use Laravel\Fortify\Contracts\LoginResponse;
 use Laravel\Fortify\Contracts\LoginViewResponse;
-use Laravel\Fortify\Contracts\LogoutResponse;
+use App\Http\Responses\AdminLogoutResponse;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Http\Requests\LoginRequest;
 use App\Http\Responses\LoginResponse;
-use Illuminate\Support\Facades\Auth;
+
 
 class AdminController extends Controller
 {
@@ -35,10 +34,11 @@ class AdminController extends Controller
      * @param  \Illuminate\Contracts\Auth\StatefulGuard  $guard
      * @return void
      */
-    public function __construct(StatefulGuard $guard)
+    public function __construct()
     {
-        $this->guard = $guard;
+        $this->guard = auth()->guard('admin');
     }
+
 
     public function loginForm()
     {
@@ -115,6 +115,6 @@ class AdminController extends Controller
             $request->session()->regenerateToken();
         }
 
-        return redirect()->route('admin.login');
+        return app(AdminLogoutResponse::class);
     }
 }
