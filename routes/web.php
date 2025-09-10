@@ -17,9 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware('admin:admin')->group(function () {
-    Route::get('/admin/login', [AdminController::class, 'loginForm'])->name('admin.login');
-    Route::post('/admin/login', [AdminController::class, 'store'])
+Route::group(['prefix' => 'admin', 'middleware' => ['admin:admin']], function () {
+    Route::get('/login', [AdminController::class, 'loginForm'])->name('admin.login');
+    Route::post('/login', [AdminController::class, 'store'])
         ->name('admin.login.store');
 });
 
