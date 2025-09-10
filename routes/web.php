@@ -18,17 +18,18 @@ Route::get('/', function () {
 });
 
 Route::middleware('admin:admin')->group(function () {
-    Route::get('/admin/login', [AdminController::class, 'loginForm']);
+    Route::get('/admin/login', [AdminController::class, 'loginForm'])->name('admin.login');
     Route::post('/admin/login', [AdminController::class, 'store'])
         ->name('admin.login.store');
 });
 
-Route::middleware(['auth:sanctum,admin', config('jetstream.auth_session'), 'verified'])
+Route::middleware(['auth.admin:admin'])
     ->group(function () {
         Route::get('admin/dashboard', function () {
             return view('dashboard');
         })->name('dashboard')->middleware('auth:admin');
     });
+
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
     ->group(function () {
