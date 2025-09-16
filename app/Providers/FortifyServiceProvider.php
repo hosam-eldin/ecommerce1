@@ -19,6 +19,7 @@ use Laravel\Fortify\Fortify;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Responses\AdminLogoutResponse;
+use App\Http\Responses\CustomLogoutResponse;
 use Laravel\Fortify\Contracts\LogoutResponse;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -35,7 +36,7 @@ class FortifyServiceProvider extends ServiceProvider
         ])->needs(StatefulGuard::class)->give(function () {
             return Auth::guard('admin');
         });
-        $this->app->singleton(LogoutResponse::class, AdminLogoutResponse::class);
+        $this->app->singleton(LogoutResponse::class, CustomLogoutResponse::class);
     }
 
     /**
