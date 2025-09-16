@@ -9,6 +9,6 @@ class AdminLogoutResponse implements LogoutResponseContract
   public function toResponse($request)
   {
 
-    return redirect()->route('admin.login');
+    return redirect()->route('admin.login')->with('success', 'Admin Logout Successfully');
   }
 }

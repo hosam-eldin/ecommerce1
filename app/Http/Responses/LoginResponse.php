@@ -3,7 +3,7 @@
 namespace App\Http\Responses;
 
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
-use Illuminate\Support\Facades\Auth;
+
 
 
 class LoginResponse implements LoginResponseContract
@@ -12,6 +12,6 @@ class LoginResponse implements LoginResponseContract
   {
     return $request->wantsJson()
       ? response()->json(['two_factor' => false])
-      : redirect()->intended('admin/dashboard');
+      : redirect()->route('admin.dashboard')->with('success', 'You are Logged in as Admin!');
   }
 }
