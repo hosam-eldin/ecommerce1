@@ -2,38 +2,36 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Http\Controllers\Backend\AdminProfileController;
+
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => ['admin:admin']], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['guest.admin:admin']], function () {
+    Route::get('/register', [AdminController::class, 'registerForm'])->name('admin.register');
+    Route::post('/register', [AdminController::class, 'register'])->name('admin.store.register');
     Route::get('/login', [AdminController::class, 'loginForm'])->name('admin.login');
-    Route::post('/login', [AdminController::class, 'store'])
-        ->name('admin.login.store');
+    Route::post('/login', [AdminController::class, 'login'])->name('admin.store.login');
 });
+//all admin route here
+Route::get('/admin/logout', [AdminController::class, 'destroy'])->name('admin.logout');
+Route::get('/admin/profile/{id}', [AdminProfileController::class, 'profile'])->name('admin.profile');
+Route::get('/admin/profile/edit/{id}', [AdminProfileController::class, 'profileEdit'])->name('admin.profile.edit');
+Route::post('/admin/profile/store/{id}', [AdminProfileController::class, 'profileStore'])->name('admin.profile.store');
+Route::get('/admin/change-password/{id}', [AdminProfileController::class, 'changePassword'])->name('admin.change-password');
+Route::post('/admin/update-password/{id}', [AdminProfileController::class, 'updatePassword'])->name('admin.update-password');
 
-Route::middleware(['auth.admin:admin'])
-    ->group(function () {
-        Route::get('admin/dashboard', function () {
-            return view('dashboard');
-        })->name('dashboard')->middleware('auth:admin');
-    });
 
 
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
-    ->group(function () {
-        Route::get('/dashboard', function () {
-            return view('dashboard');
-        })->name('dashboard');
-    });
+
+
+//end admin all route
+Route::middleware(['auth.admin:admin', 'verified'])->get('/admin/dashboard', function () {
+    return view('/admin/index');
+})->name('admin.dashboard');
+
+Route::middleware(['auth:sanctum,web', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');

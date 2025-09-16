@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Contracts\Auth\StatefulGuard;
+
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Routing\Pipeline;
@@ -11,12 +11,13 @@ use Laravel\Fortify\Actions\CanonicalizeUsername;
 use Laravel\Fortify\Actions\EnsureLoginIsNotThrottled;
 use Laravel\Fortify\Actions\PrepareAuthenticatedSession;
 use App\Actions\Fortify\RedirectIfTwoFactorAuthenticatable;
-use Laravel\Fortify\Contracts\LoginViewResponse;
 use App\Http\Responses\AdminLogoutResponse;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Http\Requests\LoginRequest;
 use App\Http\Responses\LoginResponse;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Admin;
 
 
 class AdminController extends Controller
@@ -37,26 +38,42 @@ class AdminController extends Controller
     public function __construct()
     {
         $this->guard = auth()->guard('admin');
-    }
+    } // end constructor
+
+    public function registerForm()
+    {
+        return view('auth.admin.register', [
+            'guard' => 'admin'
+        ]);
+    } // end method
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:admins',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $admin = new Admin();
+        $admin->name = $request->name;
+        $admin->email = $request->email;
+        $admin->password = bcrypt($request->password);
+        $admin->created_at = now();
+        $admin->save();
+
+        return redirect()->route('admin.login')->with('success', 'Admin registered successfully. You can now log in.');
+    } // end method
 
 
     public function loginForm()
     {
-        return view('auth.login', [
+        return view('auth.admin.login', [
             'guard' => 'admin'
         ]);
-    }
+    } // end method
 
-    /**
-     * Show the login view.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Laravel\Fortify\Contracts\LoginViewResponse
-     */
-    public function create(Request $request): LoginViewResponse
-    {
-        return app(LoginViewResponse::class);
-    }
+
 
     /**
      * Attempt to authenticate a new session.
@@ -64,12 +81,12 @@ class AdminController extends Controller
      * @param  \Laravel\Fortify\Http\Requests\LoginRequest  $request
      * @return mixed
      */
-    public function store(LoginRequest $request)
+    public function login(LoginRequest $request)
     {
         return $this->loginPipeline($request)->then(function ($request) {
             return app(LoginResponse::class);
         });
-    }
+    } // end method
 
     /**
      * Get the authentication pipeline instance.
@@ -98,7 +115,7 @@ class AdminController extends Controller
             AttemptToAuthenticate::class,
             PrepareAuthenticatedSession::class,
         ]));
-    }
+    } // end method
 
     /**
      * Destroy an authenticated session.
@@ -108,7 +125,7 @@ class AdminController extends Controller
      */
     public function destroy(Request $request)
     {
-        $this->guard->logout();
+        Auth::guard('admin')->logout();
 
         if ($request->hasSession()) {
             $request->session()->invalidate();
@@ -116,5 +133,5 @@ class AdminController extends Controller
         }
 
         return app(AdminLogoutResponse::class);
-    }
+    } // end method
 }
