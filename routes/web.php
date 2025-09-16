@@ -3,11 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\AdminProfileController;
+use App\Http\Controllers\Frontend\IndexController;
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Route::group(['prefix' => 'admin', 'middleware' => ['guest.admin:admin']], function () {
     Route::get('/register', [AdminController::class, 'registerForm'])->name('admin.register');
@@ -23,11 +22,16 @@ Route::post('/admin/profile/store/{id}', [AdminProfileController::class, 'profil
 Route::get('/admin/change-password/{id}', [AdminProfileController::class, 'changePassword'])->name('admin.change-password');
 Route::post('/admin/update-password/{id}', [AdminProfileController::class, 'updatePassword'])->name('admin.update-password');
 
-
-
-
-
 //end admin all route
+
+//all index route here
+Route::get('/', [IndexController::class, 'index'])->name('home');
+
+
+
+
+
+//end index all route
 Route::middleware(['auth.admin:admin', 'verified'])->get('/admin/dashboard', function () {
     return view('/admin/index');
 })->name('admin.dashboard');

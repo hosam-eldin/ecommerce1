@@ -9,6 +9,8 @@
       "positionClass": "toast-top-right"
    }
 
+
+
    @if (session('success'))
       toastr.success("{{ session('success') }}");
    @endif
