@@ -26,7 +26,7 @@
    <link rel="stylesheet" href="{{ asset('frontend/assets/css/bootstrap-select.min.css') }}">
 
 
-
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
    <!-- Icons/Glyphs -->
    <link rel="stylesheet" href="{{ asset('frontend/assets/css/font-awesome.css') }}">
@@ -49,7 +49,7 @@
       <div class="container">
          <div class="breadcrumb-inner">
             <ul class="list-inline list-unstyled">
-               <li><a href="home.html">Home</a></li>
+               <li><a href="{{ route('home') }}">Home</a></li>
                <li class='active'>Forgot Password</li>
             </ul>
          </div><!-- /.breadcrumb-inner -->
@@ -70,9 +70,9 @@
                      action="{{ route('password.email') }}">
                      @csrf
                      <div class="form-group">
-                        <label class="info-title" for="exampleInputEmail1">Email Address <span>*</span></label>
-                        <input type="email" class="form-control unicase-form-control text-input"
-                           id="exampleInputEmail1" name="email" :value="old('email')" required autofocus>
+                        <label class="info-title" for="email">Email Address <span>*</span></label>
+                        <input type="email" class="form-control unicase-form-control text-input" id="email"
+                           name="email" required autofocus>
                      </div>
 
                      <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Send Password Reset
@@ -176,7 +176,7 @@
    <!-- For demo purposes – can be removed on production : End -->
 
    <!-- JavaScripts placed at the end of the document so the pages load faster -->
-   <script src="{{ asset('frontend/assets/js/jquery-1.11.1.min.js') }}"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
    <script src="{{ asset('frontend/assets/js/bootstrap.min.js') }}"></script>
 
@@ -212,6 +212,9 @@
       });
    </script>
    <!-- For demo purposes – can be removed on production : End -->
+
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 
    <x-toastr />

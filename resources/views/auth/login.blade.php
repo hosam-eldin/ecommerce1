@@ -37,7 +37,7 @@
       rel='stylesheet' type='text/css'>
    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 
-
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 
 <body class="cnt-home">
@@ -73,23 +73,24 @@
                      action="{{ route('login') }}">
                      @csrf
                      <div class="form-group">
-                        <label class="info-title" for="exampleInputEmail1">Email Address <span>*</span></label>
-                        <input type="email" class="form-control unicase-form-control text-input"
-                           id="exampleInputEmail1" name="email" required autofocus>
+                        <label class="info-title" for="email">Email Address <span>*</span></label>
+                        <input type="email" class="form-control unicase-form-control text-input" id="email"
+                           name="email" required autofocus>
                         <span class="text-danger error-text email_error"></span>
                      </div>
                      <div class="form-group">
-                        <label class="info-title" for="exampleInputPassword1">Password <span>*</span></label>
-                        <input type="password" class="form-control unicase-form-control text-input"
-                           id="exampleInputPassword1" name="password" required>
+                        <label class="info-title" for="password">Password <span>*</span></label>
+                        <input type="password" class="form-control unicase-form-control text-input" id="password"
+                           name="password" required>
                         <span class="text-danger error-text password_error"></span>
                      </div>
                      <div class="radio outer-xs">
                         <label>
-                           <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">Remember
+                           <input type="checkbox" name="remember" id="remember" value="option2">Remember
                            me!
                         </label>
-                        <a href="#" class="forgot-password pull-right">Forgot your Password?</a>
+                        <a href="{{ route('password.request') }}" class="forgot-password pull-right">Forgot your
+                           Password?</a>
                      </div>
                      <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Login</button>
                   </form>
@@ -232,7 +233,7 @@
    <!-- For demo purposes – can be removed on production : End -->
 
    <!-- JavaScripts placed at the end of the document so the pages load faster -->
-   <script src="{{ asset('frontend/assets/js/jquery-1.11.1.min.js') }}"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
    <script src="{{ asset('frontend/assets/js/bootstrap.min.js') }}"></script>
 
@@ -268,34 +269,8 @@
       });
    </script>
    <!-- For demo purposes – can be removed on production : End -->
-   <script>
-      $(document).ready(function() {
-         $('#myForm').on('submit', function(e) {
-            e.preventDefault();
 
-            // امسح الأخطاء القديمة
-            $('.error-text').text('');
-
-            $.ajax({
-               url: $(this).attr('action'),
-               method: $(this).attr('method'),
-               data: $(this).serialize(),
-               success: function(response) {
-                  alert("تم الحفظ بنجاح ✅");
-                  $('#myForm')[0].reset(); // امسح البيانات من الفورم
-               },
-               error: function(xhr) {
-                  if (xhr.status === 422) {
-                     let errors = xhr.responseJSON.errors;
-                     $.each(errors, function(key, value) {
-                        $('.' + key + '_error').text(value[0]);
-                     });
-                  }
-               }
-            });
-         });
-      });
-   </script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
    <x-toastr />
 </body>

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\AdminProfileController;
 use App\Http\Controllers\Frontend\IndexController;
+use App\Http\Controllers\Backend\BrandController;
 
 
 
@@ -26,12 +27,23 @@ Route::post('/admin/update-password/{id}', [AdminProfileController::class, 'upda
 
 //all index route here
 Route::get('/', [IndexController::class, 'index'])->name('home');
-
-
-
-
+Route::get('/user/logout', [IndexController::class, 'logout'])->name('user.logout');
+Route::get('/user/profile', [IndexController::class, 'userProfile'])->name('user.profile');
+Route::post('/user/profile/store', [IndexController::class, 'userProfileStore'])->name('user.profile.store');
+Route::get('/user/change-password', [IndexController::class, 'userChangePassword'])->name('user.change-password');
+Route::post('/user/update-password', [IndexController::class, 'userUpdatePassword'])->name('user.update-password');
 
 //end index all route
+//brand all routes here
+Route::prefix('brand')->group(function () {
+    Route::get('/view', [BrandController::class, 'BrandView'])->name('all.brands');
+    Route::post('/store', [BrandController::class, 'BrandStore'])->name('brand.store');
+    Route::get('/edit/{id}', [BrandController::class, 'BrandEdit'])->name('brand.edit');
+    Route::put('/update/{id}', [BrandController::class, 'BrandUpdate'])->name('brand.update');
+    Route::delete('/delete/{id}', [BrandController::class, 'BrandDelete'])->name('brand.delete');
+});
+
+//brand routes end here
 Route::middleware(['auth.admin:admin', 'verified'])->get('/admin/dashboard', function () {
     return view('/admin/index');
 })->name('admin.dashboard');
