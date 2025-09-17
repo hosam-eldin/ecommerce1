@@ -37,7 +37,7 @@
       rel='stylesheet' type='text/css'>
    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 
-
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 
 <body class="cnt-home">
@@ -232,7 +232,7 @@
    <!-- For demo purposes – can be removed on production : End -->
 
    <!-- JavaScripts placed at the end of the document so the pages load faster -->
-   <script src="{{ asset('frontend/assets/js/jquery-1.11.1.min.js') }}"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
    <script src="{{ asset('frontend/assets/js/bootstrap.min.js') }}"></script>
 
@@ -268,34 +268,8 @@
       });
    </script>
    <!-- For demo purposes – can be removed on production : End -->
-   <script>
-      $(document).ready(function() {
-         $('#myForm').on('submit', function(e) {
-            e.preventDefault();
 
-            // امسح الأخطاء القديمة
-            $('.error-text').text('');
-
-            $.ajax({
-               url: $(this).attr('action'),
-               method: $(this).attr('method'),
-               data: $(this).serialize(),
-               success: function(response) {
-                  alert("تم الحفظ بنجاح ✅");
-                  $('#myForm')[0].reset(); // امسح البيانات من الفورم
-               },
-               error: function(xhr) {
-                  if (xhr.status === 422) {
-                     let errors = xhr.responseJSON.errors;
-                     $.each(errors, function(key, value) {
-                        $('.' + key + '_error').text(value[0]);
-                     });
-                  }
-               }
-            });
-         });
-      });
-   </script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
    <x-toastr />
 </body>

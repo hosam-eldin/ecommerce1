@@ -26,7 +26,7 @@
    <link rel="stylesheet" href="{{ asset('frontend/assets/css/bootstrap-select.min.css') }}">
 
 
-
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
    <!-- Icons/Glyphs -->
    <link rel="stylesheet" href="{{ asset('frontend/assets/css/font-awesome.css') }}">
@@ -176,7 +176,7 @@
    <!-- For demo purposes – can be removed on production : End -->
 
    <!-- JavaScripts placed at the end of the document so the pages load faster -->
-   <script src="{{ asset('frontend/assets/js/jquery-1.11.1.min.js') }}"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
    <script src="{{ asset('frontend/assets/js/bootstrap.min.js') }}"></script>
 
@@ -212,6 +212,9 @@
       });
    </script>
    <!-- For demo purposes – can be removed on production : End -->
+
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 
    <x-toastr />

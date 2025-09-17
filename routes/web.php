@@ -26,6 +26,11 @@ Route::post('/admin/update-password/{id}', [AdminProfileController::class, 'upda
 
 //all index route here
 Route::get('/', [IndexController::class, 'index'])->name('home');
+Route::get('/user/logout', [IndexController::class, 'logout'])->name('user.logout');
+Route::get('/user/profile', [IndexController::class, 'userProfile'])->name('user.profile');
+Route::post('/user/profile/store', [IndexController::class, 'userProfileStore'])->name('user.profile.store');
+Route::get('/user/change-password', [IndexController::class, 'userChangePassword'])->name('user.change-password');
+Route::post('/user/update-password', [IndexController::class, 'userUpdatePassword'])->name('user.update-password');
 
 
 
