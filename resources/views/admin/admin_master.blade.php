@@ -61,9 +61,36 @@
    <!-- Sunny Admin App -->
    <script src="{{ asset('backend/js/template.js') }}"></script>
    <script src="{{ asset('backend/js/pages/dashboard.js') }}"></script>
-
+   <script src="{{ asset('backend/assets/vendor_components/datatable/datatables.min.js') }}"></script>
+   <script src="{{ asset('backend/js/pages/data-table.js') }}"></script>
+   <script src="{{ asset('backend/assets/icons/feather-icons/feather.min.js') }}"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <script>
+      $(function() {
+         $(document).on('click', '[id^=delete-]', function(e) {
+            e.preventDefault();
+            var form = $(this).closest('form'); // Get the closest form element
+
+            Swal.fire({
+               title: "Are you sure?",
+               text: "You won't be able to revert this!",
+               icon: "warning",
+               showCancelButton: true,
+               confirmButtonColor: "#3085d6",
+               cancelButtonColor: "#d33",
+               confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+               if (result.isConfirmed) {
+                  form.submit();
+               }
+            });
+         });
+      });
+   </script>
+
 
 
    <x-toastr />

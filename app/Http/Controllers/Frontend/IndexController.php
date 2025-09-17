@@ -40,11 +40,11 @@ class IndexController extends Controller
         $validateData = $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'phone' => 'required',
+            'phone' => 'required|numeric',
         ]);
 
 
-        $user = auth()->user();
+        $user = User::find(auth()->id());
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;

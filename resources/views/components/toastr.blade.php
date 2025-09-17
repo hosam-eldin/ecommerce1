@@ -5,7 +5,11 @@
       "timeOut": "5000",
       "positionClass": "toast-top-right"
    }
-
+   @if ($errors->any())
+      @foreach ($errors->all() as $error)
+         toastr.error("{{ $error }}");
+      @endforeach
+   @endif
 
 
    @if (session('success'))

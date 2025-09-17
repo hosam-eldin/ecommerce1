@@ -73,23 +73,24 @@
                      action="{{ route('login') }}">
                      @csrf
                      <div class="form-group">
-                        <label class="info-title" for="exampleInputEmail1">Email Address <span>*</span></label>
-                        <input type="email" class="form-control unicase-form-control text-input"
-                           id="exampleInputEmail1" name="email" required autofocus>
+                        <label class="info-title" for="email">Email Address <span>*</span></label>
+                        <input type="email" class="form-control unicase-form-control text-input" id="email"
+                           name="email" required autofocus>
                         <span class="text-danger error-text email_error"></span>
                      </div>
                      <div class="form-group">
-                        <label class="info-title" for="exampleInputPassword1">Password <span>*</span></label>
-                        <input type="password" class="form-control unicase-form-control text-input"
-                           id="exampleInputPassword1" name="password" required>
+                        <label class="info-title" for="password">Password <span>*</span></label>
+                        <input type="password" class="form-control unicase-form-control text-input" id="password"
+                           name="password" required>
                         <span class="text-danger error-text password_error"></span>
                      </div>
                      <div class="radio outer-xs">
                         <label>
-                           <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">Remember
+                           <input type="checkbox" name="remember" id="remember" value="option2">Remember
                            me!
                         </label>
-                        <a href="#" class="forgot-password pull-right">Forgot your Password?</a>
+                        <a href="{{ route('password.request') }}" class="forgot-password pull-right">Forgot your
+                           Password?</a>
                      </div>
                      <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Login</button>
                   </form>

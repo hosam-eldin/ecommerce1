@@ -49,7 +49,7 @@
       <div class="container">
          <div class="breadcrumb-inner">
             <ul class="list-inline list-unstyled">
-               <li><a href="home.html">Home</a></li>
+               <li><a href="{{ route('home') }}">Home</a></li>
                <li class='active'>Forgot Password</li>
             </ul>
          </div><!-- /.breadcrumb-inner -->
@@ -70,9 +70,9 @@
                      action="{{ route('password.email') }}">
                      @csrf
                      <div class="form-group">
-                        <label class="info-title" for="exampleInputEmail1">Email Address <span>*</span></label>
-                        <input type="email" class="form-control unicase-form-control text-input"
-                           id="exampleInputEmail1" name="email" :value="old('email')" required autofocus>
+                        <label class="info-title" for="email">Email Address <span>*</span></label>
+                        <input type="email" class="form-control unicase-form-control text-input" id="email"
+                           name="email" required autofocus>
                      </div>
 
                      <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Send Password Reset

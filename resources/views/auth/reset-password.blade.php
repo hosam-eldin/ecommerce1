@@ -70,10 +70,9 @@
                      @csrf
                      <input type="hidden" name="token" value="{{ $request->route('token') }}">
                      <div class="form-group">
-                        <label class="info-title" for="exampleInputEmail1">Email Address <span>*</span></label>
-                        <input type="email" class="form-control unicase-form-control text-input"
-                           id="exampleInputEmail1" name="email" value="{{ old('email', $request->email) }}" required
-                           autofocus>
+                        <label class="info-title" for="email">Email Address <span>*</span></label>
+                        <input type="email" class="form-control unicase-form-control text-input" id="email"
+                           name="email" value="{{ old('email', $request->email) }}" required autofocus>
                      </div>
                      <div class="form-group">
                         <label class="info-title" for="password">Password <span>*</span></label>
