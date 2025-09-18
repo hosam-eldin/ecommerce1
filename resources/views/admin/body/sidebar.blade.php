@@ -44,17 +44,17 @@ $route = Route::current()->getName();
             </ul>
          </li>
 
-         <li class="treeview">
+         <li class="treeview {{ $prifix == '/category' ? 'active' : '' }}">
             <a href="#">
-               <i data-feather="mail"></i> <span>Mailbox</span>
+               <i data-feather="mail"></i> <span>Categories</span>
                <span class="pull-right-container">
                   <i class="fa fa-angle-right pull-right"></i>
                </span>
             </a>
             <ul class="treeview-menu">
-               <li><a href="mailbox_inbox.html"><i class="ti-more"></i>Inbox</a></li>
-               <li><a href="mailbox_compose.html"><i class="ti-more"></i>Compose</a></li>
-               <li><a href="mailbox_read_mail.html"><i class="ti-more"></i>Read</a></li>
+               <li><a href="{{ route('all.categories') }}"><i
+                        class="ti-more {{ $route == 'all.categories' ? 'active' : '' }}"></i>All Categories</a></li>
+               {{-- <li><a href="{{ route('') }}"><i class="ti-more {{ $route == 'category.create' ? 'active' : '' }}"></i>All SubCategory</a></li> --}}
             </ul>
          </li>
 
@@ -123,7 +123,7 @@ $route = Route::current()->getName();
       <a href="mailbox_inbox.html" class="link" data-toggle="tooltip" title="" data-original-title="Email"><i
             class="ti-email"></i></a>
       <!-- item-->
-      <a href="javascript:void(0)" class="link" data-toggle="tooltip" title=""
-         data-original-title="Logout"><i class="ti-lock"></i></a>
+      <a href="javascript:void(0)" class="link" data-toggle="tooltip" title="" data-original-title="Logout"><i
+            class="ti-lock"></i></a>
    </div>
 </aside>

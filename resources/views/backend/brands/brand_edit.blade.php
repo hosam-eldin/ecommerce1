@@ -1,5 +1,5 @@
 @extends('admin.admin_master')
-@section('title', 'Brands View')
+@section('title', 'Brands Edit')
 @section('admin')
 
    <section class="content">
