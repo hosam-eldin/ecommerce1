@@ -1,0 +1,79 @@
+<?php
+
+namespace App\Http\Controllers\Backend;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\SubCategory;
+use App\Models\Category;
+
+class SubCategoryController extends Controller
+{
+  public function SubCategoryView()
+  {
+    $categories = Category::all();
+    $subcategories = SubCategory::with('category')->get();
+    return view('backend.subcategories.subcategory_view', compact('subcategories', 'categories'));
+  } //end method
+
+  public function SubCategoryStore(Request $request)
+  {
+    $request->validate([
+      'category_id' => 'required',
+      'sub_category_name_en' => 'required',
+      'sub_category_name_hin' => 'required',
+    ], [
+      'category_id.required' => 'Please Select Any Option',
+      'sub_category_name_en.required' => 'Input SubCategory English Name',
+      'sub_category_name_hin.required' => 'Input SubCategory Hindi Name',
+    ]);
+
+    SubCategory::insert([
+      'category_id' => $request->category_id,
+      'sub_category_name_en' => $request->sub_category_name_en,
+      'sub_category_name_hin' => $request->sub_category_name_hin,
+      'sub_category_slug_en' => strtolower(str_replace(' ', '-', $request->sub_category_name_en)),
+      'sub_category_slug_hin' => str_replace(' ', '-', $request->sub_category_name_hin),
+    ]);
+
+    return redirect()->back()->with('message', 'SubCategory Inserted Successfully');
+  } //end method
+
+  public function SubCategoryEdit($id)
+  {
+    $categories = Category::all();
+    $subcategory = SubCategory::findOrFail($id);
+    return view('backend.subcategories.subcategory_edit', compact('subcategory', 'categories'));
+  } //end method
+
+  public function SubCategoryUpdate(Request $request, $id)
+  {
+    $request->validate([
+      'category_id' => 'required',
+      'sub_category_name_en' => 'required',
+      'sub_category_name_hin' => 'required',
+    ], [
+      'category_id.required' => 'Please Select Any Option',
+      'sub_category_name_en.required' => 'Input SubCategory English Name',
+      'sub_category_name_hin.required' => 'Input SubCategory Hindi Name',
+    ]);
+
+    SubCategory::findOrFail($id)->update([
+      'category_id' => $request->category_id,
+      'sub_category_name_en' => $request->sub_category_name_en,
+      'sub_category_name_hin' => $request->sub_category_name_hin,
+      'sub_category_slug_en' => strtolower(str_replace(' ', '-', $request->sub_category_name_en)),
+      'sub_category_slug_hin' => str_replace(' ', '-', $request->sub_category_name_hin),
+    ]);
+
+    return redirect()->route('all.subcategories')->with('message', 'SubCategory Updated Successfully');
+  } //end method
+
+  public function SubCategoryDelete($id)
+  {
+    SubCategory::findOrFail($id)->delete();
+    return redirect()->back()->with('message', 'SubCategory Deleted Successfully');
+  } //end method
+
+
+}
