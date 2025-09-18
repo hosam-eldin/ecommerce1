@@ -59,8 +59,8 @@
                         <div class="row">
                            <div class="col-6">
                               <div class="checkbox text-white">
-                                 <input type="checkbox" id="basic_checkbox_1">
-                                 <label for="basic_checkbox_1">Remember Me</label>
+                                 <input type="checkbox" id="remember" name="remember">
+                                 <label for="remember">Remember Me</label>
                               </div>
                            </div>
                            <!-- /.col -->

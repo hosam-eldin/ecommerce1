@@ -86,7 +86,7 @@
                      </div>
                      <div class="radio outer-xs">
                         <label>
-                           <input type="checkbox" name="remember" id="remember" value="option2">Remember
+                           <input type="checkbox" name="remember" id="remember">Remember
                            me!
                         </label>
                         <a href="{{ route('password.request') }}" class="forgot-password pull-right">Forgot your
