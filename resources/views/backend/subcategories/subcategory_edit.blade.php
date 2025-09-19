@@ -1,5 +1,5 @@
 @extends('admin.admin_master')
-@section('title', 'Categories Edit')
+@section('title', 'SubCategories Edit')
 @section('admin')
 
    <section class="content">
@@ -8,7 +8,7 @@
          <div class="col-4">
             <div class="box">
                <div class="box-header with-border">
-                  <h3 class="box-title">Update Category</h3>
+                  <h3 class="box-title">Update SubCategory</h3>
                </div><!-- /.box-header -->
                <div class="box-body">
                   <form method="post" action="{{ route('subcategory.update', $subcategory->id) }}"
@@ -36,7 +36,7 @@
                            value="{{ $subcategory->sub_category_name_hin }}">
                      </div>
 
-                     <button type="submit" class="btn btn-primary">Update Category</button>
+                     <button type="submit" class="btn btn-primary">Update SubCategory</button>
                   </form>
                </div><!-- /.box-body -->
             </div><!-- /.box -->
