@@ -54,7 +54,12 @@ $route = Route::current()->getName();
             <ul class="treeview-menu">
                <li><a href="{{ route('all.categories') }}"><i
                         class="ti-more {{ $route == 'all.categories' ? 'active' : '' }}"></i>All Categories</a></li>
-               {{-- <li><a href="{{ route('') }}"><i class="ti-more {{ $route == 'category.create' ? 'active' : '' }}"></i>All SubCategory</a></li> --}}
+               <li><a href="{{ route('all.subcategories') }}"><i
+                        class="ti-more {{ $route == 'all.subcategories' ? 'active' : '' }}"></i>All SubCategory</a>
+               </li>
+               <li><a href="{{ route('all.sub.subcategories') }}"><i
+                        class="ti-more {{ $route == 'all.sub.subcategories' ? 'active' : '' }}"></i>All
+                     Sub_SubCategory</a></li>
             </ul>
          </li>
 
@@ -123,7 +128,7 @@ $route = Route::current()->getName();
       <a href="mailbox_inbox.html" class="link" data-toggle="tooltip" title="" data-original-title="Email"><i
             class="ti-email"></i></a>
       <!-- item-->
-      <a href="javascript:void(0)" class="link" data-toggle="tooltip" title="" data-original-title="Logout"><i
-            class="ti-lock"></i></a>
+      <a href="javascript:void(0)" class="link" data-toggle="tooltip" title=""
+         data-original-title="Logout"><i class="ti-lock"></i></a>
    </div>
 </aside>
