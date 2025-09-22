@@ -75,6 +75,8 @@ Route::prefix('product')->group(function () {
     Route::get('edit/{id}', [ProductController::class, 'ProductEdit'])->name('edit.product');
     Route::put('/update/{id}', [ProductController::class, 'ProductDataUpdate'])->name('product-update');
     Route::get('delete/{id}', [ProductController::class, 'ProductDelete'])->name('delete.product');
+    Route::put('/image/update', [ProductController::class, 'MultiImageUpdate'])->name('update-product-image');
+    Route::post('/thumbnail/update', [ProductController::class, 'ThumbnailImageUpdate'])->name('update-product-thumbnail');
 });
 //------------------------------------product routes end here-----------------------------------
 //-----------------------------------admin dashboard route here------------------------------

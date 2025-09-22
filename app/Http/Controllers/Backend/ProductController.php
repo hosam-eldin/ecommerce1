@@ -100,13 +100,13 @@ class ProductController extends Controller
 
     public function productEdit($id)
     {
-
+        $multiImgs = MultiImgs::where('product_id', $id)->get();
         $categories = Category::latest()->get();
         $brands = Brand::latest()->get();
         $subcategory = SubCategory::latest()->get();
         $subsubcategory = SubSubCategory::latest()->get();
         $product = Product::findOrFail($id);
-        return view('backend.product.product_edit', compact('categories', 'brands', 'subcategory', 'subsubcategory', 'product'));
+        return view('backend.product.product_edit', compact('categories', 'brands', 'subcategory', 'subsubcategory', 'product', 'multiImgs'));
     } //-------------------------end method---------------------
 
     public function ProductDataUpdate(Request $request)
@@ -146,10 +146,51 @@ class ProductController extends Controller
             'special_deals' => $request->special_deals,
             'status' => 1,
             'created_at' => Carbon::now(),
+        ]);
+        return redirect()->back()->with('info', 'Product Updated Without Image Successfully');
+    } // end method 
 
+    /// Multiple Image Update
+    public function MultiImageUpdate(Request $request)
+    {
+        $imgs = $request->multi_img;
+
+        foreach ($imgs as $id => $img) {
+            $imgDel = MultiImgs::findOrFail($id);
+            unlink($imgDel->photo_name);
+
+            $make_name = hexdec(uniqid()) . '.' . $img->getClientOriginalExtension();
+            Image::make($img)->resize(917, 1000)->save('upload/products/multi-image/' . $make_name);
+            $uploadPath = 'upload/products/multi-image/' . $make_name;
+
+            MultiImgs::where('id', $id)->update([
+                'photo_name' => $uploadPath,
+                'updated_at' => Carbon::now(),
+            ]);
+        } // end foreach
+
+        return redirect()->back()->with('info', 'Product Images Updated Successfully');
+    } // end method ----------------------------
+
+    /// Product Main Thambnail Update /// 
+    public function ThumbnailImageUpdate(Request $request)
+    {
+        $pro_id = $request->id;
+        $oldImage = $request->old_img;
+        unlink($oldImage);
+
+        $image = $request->file('product_thumbnail');
+        $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+        Image::make($image)->resize(917, 1000)->save('upload/products/thambnail/' . $name_gen);
+        $save_url = 'upload/products/thambnail/' . $name_gen;
+
+        Product::findOrFail($pro_id)->update([
+            'product_thumbnail' => $save_url,
+            'updated_at' => Carbon::now(),
         ]);
 
+        return redirect()->back()->with('info', 'Product Image Thumbnail Updated Successfully');
+    } // end method
 
-        return redirect()->route('all.products')->with('success', 'Product Updated Without Image Successfully');
-    } // end method 
+
 }
