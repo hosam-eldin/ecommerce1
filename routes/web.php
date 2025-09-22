@@ -71,7 +71,10 @@ Route::prefix('category')->group(function () {
 Route::prefix('product')->group(function () {
     Route::get('/add', [ProductController::class, 'addProduct'])->name('add.product');
     Route::post('/store', [ProductController::class, 'ProductStore'])->name('product-store');
-    Route::get('/view', [ProductController::class, 'ProductView'])->name('all.products');
+    Route::get('/all', [ProductController::class, 'ProductsView'])->name('all.products');
+    Route::get('edit/{id}', [ProductController::class, 'ProductEdit'])->name('edit.product');
+    Route::put('/update/{id}', [ProductController::class, 'ProductDataUpdate'])->name('product-update');
+    Route::get('delete/{id}', [ProductController::class, 'ProductDelete'])->name('delete.product');
 });
 //------------------------------------product routes end here-----------------------------------
 //-----------------------------------admin dashboard route here------------------------------
