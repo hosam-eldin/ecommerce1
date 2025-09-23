@@ -192,5 +192,47 @@ class ProductController extends Controller
         return redirect()->back()->with('info', 'Product Image Thumbnail Updated Successfully');
     } // end method
 
+    //// Multi Image Delete ////
+    public function MultiImageDelete($id)
+    {
+        $oldimg = MultiImgs::findOrFail($id);
+        unlink($oldimg->photo_name);
+        MultiImgs::findOrFail($id)->delete();
+
+
+        return redirect()->back()->with('success', 'Product Image Deleted Successfully');
+    } // end method 
+
+    public function ProductInactive($id)
+    {
+        Product::findOrFail($id)->update(['status' => 0]);
+
+
+        return redirect()->back()->with('success', 'Product InActive');
+    }
+
+
+    public function ProductActive($id)
+    {
+        Product::findOrFail($id)->update(['status' => 1]);
+
+
+        return redirect()->back()->with('success', 'Product Active');
+    }
+
+    public function ProductDelete($id)
+    {
+        $product = Product::findOrFail($id);
+        unlink($product->product_thumbnail);
+        Product::findOrFail($id)->delete();
+
+        $images = MultiImgs::where('product_id', $id)->get();
+        foreach ($images as $img) {
+            unlink($img->photo_name);
+            MultiImgs::where('product_id', $id)->delete();
+        }
+
+        return redirect()->back()->with('success', 'Product Deleted Successfully');
+    } // end method 
 
 }

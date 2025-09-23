@@ -77,6 +77,10 @@ Route::prefix('product')->group(function () {
     Route::get('delete/{id}', [ProductController::class, 'ProductDelete'])->name('delete.product');
     Route::put('/image/update', [ProductController::class, 'MultiImageUpdate'])->name('update-product-image');
     Route::post('/thumbnail/update', [ProductController::class, 'ThumbnailImageUpdate'])->name('update-product-thumbnail');
+    Route::get('/multiimg/delete/{id}', [ProductController::class, 'MultiImageDelete'])->name('product.multiimg.delete');
+    Route::get('/inactive/{id}', [ProductController::class, 'ProductInactive'])->name('product.inactive');
+    Route::get('/active/{id}', [ProductController::class, 'ProductActive'])->name('product.active');
+    Route::get('/delete/{id}', [ProductController::class, 'ProductDelete'])->name('product.delete');
 });
 //------------------------------------product routes end here-----------------------------------
 //-----------------------------------admin dashboard route here------------------------------

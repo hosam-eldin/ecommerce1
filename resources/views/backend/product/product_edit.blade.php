@@ -460,7 +460,8 @@
                                     style="height: 130px; width: 280px;">
                                  <div class="card-body">
                                     <h5 class="card-title">
-                                       <a href="" class="btn btn-sm btn-danger" id="delete"
+                                       <a href="{{ route('product.multiimg.delete', $img->id) }}"
+                                          class="btn btn-sm btn-danger" id="delete-{{ $img->id }}"
                                           title="Delete Data"><i class="fa fa-trash"></i> </a>
                                     </h5>
                                     <p class="card-text">
@@ -533,6 +534,8 @@
 
 
    </div><!---------------------------------end-container------------------------->
+
+   {{-- display image --}}
    <script type="text/javascript">
       function mainThamUrl(input) {
          if (input.files && input.files[0]) {
@@ -544,7 +547,7 @@
          }
       }
    </script>
-
+   {{-- sub &sub-sub-category --}}
    <script>
       $(document).ready(function() {
 
