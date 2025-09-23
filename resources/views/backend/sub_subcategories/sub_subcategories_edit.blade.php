@@ -30,11 +30,7 @@
                         <label for="sub_category">Sub Category (EN)</label>
                         <select name="sub_category_id" class="form-control" id="sub_category">
                            <option value="" selected="" disabled="">Select Sub Category</option>
-                           @foreach ($subcategories as $subcategory)
-                              <option value="{{ $subcategory->id }}"
-                                 {{ $subcategory->id == $subsubcategory->sub_category_id ? 'selected' : '' }}>
-                                 {{ $subcategory->sub_category_name_en }}</option>
-                           @endforeach
+
                         </select>
                      </div>
                      <div class="form-group">
@@ -58,6 +54,61 @@
          </div><!-- /.col-4 -->
       </div><!-- /.row -->
    </section>
+
+   <!-- jQuery CDN -->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+   <script>
+      $(document).ready(function() {
+         let selectedCat = "{{ $subsubcategory->category_id }}"; // Get the selected category ID from the server
+         let selectedSubCat =
+         "{{ $subsubcategory->sub_category_id }}"; // Get the selected subcategory ID from the server
+
+         // Load subcategories for the selected category on page load
+         if (selectedCat) {
+            $.ajax({
+               url: "{{ url('/category/get-subcategories/ajax') }}/" + selectedCat,
+               type: "GET",
+               dataType: "json",
+               success: function(data) {
+                  $('select[name="sub_category_id"]').html(
+                     '<option value="" disabled>Select Sub Category</option>'
+                  );
+                  $.each(data, function(key, value) {
+                     let selected = (value.id == selectedSubCat) ? 'selected' : '';
+                     $('select[name="sub_category_id"]').append(
+                        '<option value="' + value.id + '" ' + selected + '>' +
+                        value.sub_category_name_en + '</option>'
+                     );
+                  });
+               }
+            });
+         }
+
+         // Update subcategories when category changes
+
+         $('select[name="category_id"]').on('change', function() {
+            var category_id = $(this).val();
+            if (category_id) {
+               $.ajax({
+                  url: "{{ url('/category/get-subcategories/ajax') }}/" + category_id,
+                  type: "GET",
+                  dataType: "json",
+                  success: function(data) {
+                     $('select[name="sub_category_id"]').html(
+                        '<option value="" disabled>Select Sub Category</option>'
+                     );
+                     $.each(data, function(key, value) {
+                        $('select[name="sub_category_id"]').append(
+                           '<option value="' + value.id + '">' +
+                           value.sub_category_name_en + '</option>'
+                        );
+                     });
+                  }
+               });
+            }
+         });
+      });
+   </script>
 
 
 @endsection
