@@ -1,4 +1,5 @@
 @extends('admin.admin_master')
+@section('title', ' Edit-Product')
 @section('admin')
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -81,12 +82,6 @@
                                              <option value="" selected="" disabled="">Select SubCategory
                                              </option>
 
-                                             {{-- @foreach ($subcategory as $sub)
-                                                <option value="{{ $sub->id }}"
-                                                   {{ $sub->id == $product->subcategory_id ? 'selected' : '' }}>
-                                                   {{ $sub->sub_category_name_en }}</option>
-                                             @endforeach --}}
-
                                           </select>
                                           @error('subcategory_id')
                                              <span class="text-danger">{{ $message }}</span>
@@ -109,12 +104,6 @@
                                           <select name="subsubcategory_id" class="form-control" required="">
                                              <option value="" selected="" disabled="">Select SubSubCategory
                                              </option>
-
-                                             {{-- @foreach ($subsubcategory as $subsub)
-                                                <option value="{{ $subsub->id }}"
-                                                   {{ $subsub->id == $product->subsubcategory_id ? 'selected' : '' }}>
-                                                   {{ $subsub->sub_sub_category_name_en }}</option>
-                                             @endforeach --}}
 
                                           </select>
                                           @error('subsubcategory_id')

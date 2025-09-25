@@ -59,7 +59,7 @@
                                           </td>
                                           <td>{{ $category->category_name_en }}</td>
                                           <td>{{ $category->category_name_hin }}</td>
-                                          <td>
+                                          <td width="30%">
                                              <a href="{{ route('category.edit', $category->id) }}" class="btn btn-info"><i
                                                    class="fa fa-edit"></i></a>
                                              <form action="{{ route('category.delete', $category->id) }}" method="POST">

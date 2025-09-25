@@ -1,4 +1,5 @@
 @extends('admin.admin_master')
+@section('title', 'Product View')
 @section('admin')
    <!-- Content Wrapper. Contains page content -->
 
@@ -66,9 +67,12 @@
                                              class="fa fa-eye"></i></a>
                                        <a href="{{ route('edit.product', $item->id) }}" class="btn btn-info"
                                           title="Edit Data"><i class="fa fa-pencil"></i> </a>
-                                       <a href="{{ route('product.delete', $item->id) }}" class="btn btn-danger"
-                                          title="Delete Data" id="delete-{{ $item->id }}">
-                                          <i class="fa fa-trash"></i></a>
+                                       <form action="{{ route('product.delete', $item->id) }}" method="POST">
+                                          @csrf
+                                          @method('DELETE')
+                                          <button id="delete-{{ $item->id }}" type="submit" class="btn btn-danger "><i
+                                                class="fa fa-trash"></i></button>
+                                       </form>
 
                                        @if ($item->status == 1)
                                           <a href="{{ route('product.inactive', $item->id) }}" class="btn btn-danger"
