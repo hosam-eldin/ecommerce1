@@ -54,7 +54,7 @@
                                           </td>
                                           <td>{{ $subcategory->sub_category_name_en }}</td>
                                           <td>{{ $subcategory->sub_category_name_hin }}</td>
-                                          <td>
+                                          <td width="30%">
                                              <a href="{{ route('subcategory.edit', $subcategory->id) }}"
                                                 class="btn btn-info"><i class="fa fa-edit"></i></a>
                                              <form action="{{ route('subcategory.delete', $subcategory->id) }}"

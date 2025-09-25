@@ -66,7 +66,7 @@
                            <!-- /.col -->
                            <div class="col-6">
                               <div class="fog-pwd text-right">
-                                 <a href="javascript:void(0)" class="text-white hover-info"><i
+                                 <a href="{{ route('password.request') }}" class="text-white hover-info"><i
                                        class="ion ion-locked"></i> Forgot pwd?</a><br>
                               </div>
                            </div>

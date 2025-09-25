@@ -60,7 +60,7 @@
                                              @endif
                                           </td>
 
-                                          <td>
+                                          <td width="30%">
                                              <a href="{{ route('brand.edit', $brand->id) }}" class="btn btn-info"><i
                                                    class="fa fa-edit"></i></a>
                                              <form action="{{ route('brand.delete', $brand->id) }}" method="POST">
