@@ -58,7 +58,7 @@
                                              <a href="{{ route('sub.subcategory.edit', $subsubcategory->id) }}"
                                                 class="btn btn-info"><i class="fa fa-edit"></i></a>
                                              <form action="{{ route('sub.subcategory.delete', $subsubcategory->id) }}"
-                                                method="POST">
+                                                method="POST" style="display:inline-block;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button id="delete-{{ $subsubcategory->id }}" type="submit"

@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\SliderController;
+use App\Http\Controllers\Frontend\LanguageController;
 
 
 
@@ -94,7 +95,6 @@ Route::middleware(['auth.admin:admin', 'verified'])->get('/admin/dashboard', fun
 //--------------------------------------end admin dashboard route-------------------------------------
 Route::middleware(['auth', 'verified'])->group(function () {
     //---------------------------all index route here-----------------------------------
-    Route::get('/', [IndexController::class, 'index'])->name('home');
     Route::get('/user/logout', [IndexController::class, 'logout'])->name('user.logout');
     Route::get('/user/profile', [IndexController::class, 'userProfile'])->name('user.profile');
     Route::post('/user/profile/store', [IndexController::class, 'userProfileStore'])->name('user.profile.store');
@@ -102,6 +102,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/user/update-password', [IndexController::class, 'userUpdatePassword'])->name('user.update-password');
     //-----------------------end index all route-----------------------------------
 });
+Route::get('/', [IndexController::class, 'index'])->name('home');
+Route::get('/lang/hindi', [LanguageController::class, 'hindi'])->name('hindi.language');
+Route::get('/lang/english', [LanguageController::class, 'english'])->name('english.language');
+
 //---------------------------------------user dashboard route here--------------------------------------
 Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
