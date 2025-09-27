@@ -62,7 +62,8 @@
                                           <td width="30%">
                                              <a href="{{ route('category.edit', $category->id) }}" class="btn btn-info"><i
                                                    class="fa fa-edit"></i></a>
-                                             <form action="{{ route('category.delete', $category->id) }}" method="POST">
+                                             <form action="{{ route('category.delete', $category->id) }}" method="POST"
+                                                style="display:inline-block;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button id="delete-{{ $category->id }}" type="submit"

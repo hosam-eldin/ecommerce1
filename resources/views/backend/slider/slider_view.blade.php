@@ -47,7 +47,7 @@
                                     <td width="30%">
                                        <a href="{{ route('slider.edit', $item->id) }}" class="btn btn-info btn-sm"
                                           title="Edit Data"><i class="fa fa-pencil"></i> </a>
-                                       <form action="{{ route('slider.delete', $item->id) }}" method="POST">
+                                       <form action="{{ route('slider.delete', $item->id) }}" method="POST" style="display:inline-block;">
                                           @csrf
                                           @method('DELETE')
                                           <button id="delete-{{ $item->id }}" type="submit" class="btn btn-danger "><i

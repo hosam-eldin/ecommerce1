@@ -67,7 +67,8 @@
                                              class="fa fa-eye"></i></a>
                                        <a href="{{ route('edit.product', $item->id) }}" class="btn btn-info"
                                           title="Edit Data"><i class="fa fa-pencil"></i> </a>
-                                       <form action="{{ route('product.delete', $item->id) }}" method="POST">
+                                       <form action="{{ route('product.delete', $item->id) }}" method="POST"
+                                          style="display:inline-block;">
                                           @csrf
                                           @method('DELETE')
                                           <button id="delete-{{ $item->id }}" type="submit" class="btn btn-danger "><i
