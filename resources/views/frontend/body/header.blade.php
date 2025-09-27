@@ -146,7 +146,13 @@
                      <div class="items-cart-inner">
                         <div class="basket"> <i class="glyphicon glyphicon-shopping-cart"></i> </div>
                         <div class="basket-item-count"><span class="count">2</span></div>
-                        <div class="total-price-basket"> <span class="lbl">cart -</span> <span class="total-price">
+                        <div class="total-price-basket"> <span class="lbl">
+                              @if (session()->get('language') == 'hindi')
+                                 गाड़ी -
+                              @else
+                                 cart -
+                              @endif
+                           </span> <span class="total-price">
                               <span class="sign">$</span><span class="value">600.00</span>
                            </span> </div>
                      </div>
@@ -161,7 +167,13 @@
                                  </div>
                               </div>
                               <div class="col-xs-7">
-                                 <h3 class="name"><a href="index.php?page-detail">Simple Product</a></h3>
+                                 <h3 class="name"><a href="index.php?page-detail">
+                                       @if (session()->get('language') == 'hindi')
+                                          सरल उत्पाद
+                                       @else
+                                          Simple Product
+                                       @endif
+                                    </a></h3>
                                  <div class="price">$600.00</div>
                               </div>
                               <div class="col-xs-1 action"> <a href="#"><i class="fa fa-trash"></i></a>
@@ -172,10 +184,21 @@
                         <div class="clearfix"></div>
                         <hr>
                         <div class="clearfix cart-total">
-                           <div class="pull-right"> <span class="text">Sub Total :</span><span
-                                 class='price'>$600.00</span> </div>
+                           <div class="pull-right"> <span class="text">
+                                 @if (session()->get('language') == 'hindi')
+                                    उप-योग :
+                                 @else
+                                    Sub Total :
+                                 @endif
+                              </span><span class='price'>$600.00</span> </div>
                            <div class="clearfix"></div>
-                           <a href="checkout.html" class="btn btn-upper btn-primary btn-block m-t-20">Checkout</a>
+                           <a href="checkout.html" class="btn btn-upper btn-primary btn-block m-t-20">
+                              @if (session()->get('language') == 'hindi')
+                                 चेक आउट
+                              @else
+                                 Checkout
+                              @endif
+                           </a>
                         </div>
                         <!-- /.cart-total-->
 
@@ -204,24 +227,37 @@
             <div class="navbar-header">
                <button data-target="#mc-horizontal-menu-collapse" data-toggle="collapse"
                   class="navbar-toggle collapsed" type="button">
-                  <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
-                     class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                  <span class="sr-only">
+                     @if (session()->get('language') == 'hindi')
+                        टॉगल से संचालित करना
+                     @else
+                        Toggle navigation
+                     @endif
+                  </span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span
+                     class="icon-bar"></span> </button>
             </div>
             <div class="nav-bg-class">
                <div class="navbar-collapse collapse" id="mc-horizontal-menu-collapse">
                   <div class="nav-outer">
                      <ul class="nav navbar-nav">
                         <li class="active dropdown yamm-fw"> <a href="{{ url('/') }}" data-hover="dropdown"
-                              class="dropdown-toggle" data-toggle="dropdown">Home</a> </li>
+                              class="dropdown-toggle" data-toggle="dropdown">
+                              @if (session()->get('language') == 'hindi')
+                                 घर
+                              @else
+                                 Home
+                              @endif
+                           </a> </li>
                         <!--   // Get Category Table Data -->
                         @php
                            $categories = App\Models\Category::orderBy('category_name_en', 'ASC')->get();
                         @endphp
 
-
                         @foreach ($categories as $category)
                            <li class="dropdown yamm mega-menu"> <a href="home.html" data-hover="dropdown"
-                                 class="dropdown-toggle" data-toggle="dropdown">{{ $category->category_name_en }}</a>
+                                 class="dropdown-toggle"
+                                 data-toggle="dropdown">{{ session()->get('language') == 'hindi' ? $category->category_name_hin : $category->category_name_en }}</a>
+
                               <ul class="dropdown-menu container">
                                  <li>
                                     <div class="yamm-content ">
@@ -240,10 +276,11 @@
                                           @foreach ($subcategories as $subcategory)
                                              <div class="col-xs-12 col-sm-6 col-md-2 col-menu">
 
-
-                                                <h2 class="title">{{ $subcategory->sub_category_name_en }}</h2>
-
-
+                                                @if (session()->get('language') == 'hindi')
+                                                   <h2 class="title">{{ $subcategory->sub_category_name_hin }}</h2>
+                                                @else
+                                                   <h2 class="title">{{ $subcategory->sub_category_name_en }}</h2>
+                                                @endif
                                                 <!--   // Get SubSubCategory Table Data -->
                                                 @php
                                                    $subsubcategories = App\Models\SubSubCategory::where(
@@ -256,10 +293,15 @@
 
                                                 @foreach ($subsubcategories as $subsubcategory)
                                                    <ul class="links">
-                                                      <li><a
-                                                            href="#">{{ $subsubcategory->sub_sub_category_name_en }}</a>
+                                                      <li>
+                                                         @if (session()->get('language') == 'hindi')
+                                                            <a
+                                                               href="#">{{ $subsubcategory->sub_sub_category_name_hin }}</a>
+                                                         @else
+                                                            <a
+                                                               href="#">{{ $subsubcategory->sub_sub_category_name_en }}</a>
+                                                         @endif
                                                       </li>
-
                                                    </ul>
                                                 @endforeach <!-- // End SubSubCategory Foreach -->
 
@@ -279,7 +321,13 @@
                               </ul>
                            </li>
                         @endforeach <!-- // End Category Foreach -->
-                        <li class="dropdown  navbar-right special-menu"> <a href="#">Todays offer</a> </li>
+                        <li class="dropdown  navbar-right special-menu"> <a href="#">
+                              @if (session()->get('language') == 'hindi')
+                                 आज का ऑफर
+                              @else
+                                 Todays offer
+                              @endif
+                           </a> </li>
                      </ul>
                      <!-- /.navbar-nav -->
                      <div class="clearfix"></div>
