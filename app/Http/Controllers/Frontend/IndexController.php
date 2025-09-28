@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Slider;
 use App\Models\Product;
 use App\Models\MultiImgs;
+use App\Models\Brand;
 use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,10 +19,18 @@ class IndexController extends Controller
     use HasProfilePhoto;
     public function index()
     {
+        $hotDeals = Product::where('hot_deals', 1)->where('discount_price', '!=', 1)->orderBy('id', 'DESC')->limit(3)->get();
+        $specialOffers = Product::where('special_offer', 1)->orderBy('id', 'DESC')->paginate(3);
+        $specialDeals = Product::where('special_deals', 1)->orderBy('id', 'DESC')->limit(3)->get();
+        $featured = Product::where('featured', 1)->orderBy('id', 'DESC')->limit(6)->get();
         $products = Product::where('status', 1)->orderBy('id', 'DESC')->limit(6)->get();
         $categories = Category::orderBy('category_name_en', 'ASC')->get();
         $sliders = Slider::where('status', 1)->orderBy('id', 'DESC')->limit(3)->get();
-        return view('frontend.index', compact('categories', 'sliders', 'products'));
+        $category_skip_0 = Category::skip(0)->first();
+        $products_category_skip_0 = Product::where('category_id', $category_skip_0->id)->orderBy('id', 'DESC')->limit(6)->get();
+        $brand_skip_0 = Brand::skip(0)->first();
+        $products_brand_skip_0 = Product::where('brand_id', $brand_skip_0->id)->orderBy('id', 'DESC')->limit(6)->get();
+        return view('frontend.index', compact('categories', 'category_skip_0', 'products_category_skip_0', 'brand_skip_0', 'products_brand_skip_0', 'sliders', 'products', 'featured', 'hotDeals', 'specialOffers', 'specialDeals'));
     } //end method
 
     public function logout(Request $request)
@@ -98,9 +107,13 @@ class IndexController extends Controller
 
     public function productDetails($id)
     {
+        $hotDeals = Product::where('hot_deals', 1)->orderBy('id', 'DESC')->limit(3)->get();
+        $specialOffers = Product::where('special_offer', 1)->orderBy('id', 'DESC')->limit(3)->get();
+        $specialsDeals = Product::where('special_deals', 1)->orderBy('id', 'DESC')->limit(3)->get();
+        $featured = Product::where('featured', 1)->orderBy('id', 'DESC')->limit(6)->get();
         $multiImgs = MultiImgs::where('product_id', $id)->get();
         $categories = Category::orderBy('category_name_en', 'ASC')->get();
         $product = Product::findOrFail($id);
-        return view('frontend.product.details', compact('product', 'categories', 'multiImgs'));
+        return view('frontend.product.details', compact('product', 'categories', 'multiImgs', 'featured', 'hotDeals', 'specialOffers', 'specialsDeals'));
     } //---------end method------------
 }
