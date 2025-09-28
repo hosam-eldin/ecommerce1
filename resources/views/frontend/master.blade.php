@@ -22,6 +22,7 @@
    <link rel="stylesheet" href="{{ asset('frontend/assets/css/animate.min.css') }}">
    <link rel="stylesheet" href="{{ asset('frontend/assets/css/rateit.css') }}">
    <link rel="stylesheet" href="{{ asset('frontend/assets/css/bootstrap-select.min.css') }}">
+   <link href="{{ asset('frontend/assets/css/lightbox.css') }}" rel="stylesheet" />
 
    <!-- Icons/Glyphs -->
    <link rel="stylesheet" href="{{ asset('frontend/assets/css/font-awesome.css') }}">
@@ -41,17 +42,12 @@
    <!-- ============================================== HEADER : END ============================================== -->
    <div class="body-content outer-top-xs" id="top-banner-and-menu">
       <div class="container">
-         <div class="row">
-            <!-- ============================================== SIDEBAR ============================================== -->
-            {{-- @include('frontend.body.sidebar') --}}
-            <!-- /.sidemenu-holder -->
-            <!-- ============================================== SIDEBAR : END ============================================== -->
 
-            <!-- ============================================== CONTENT ============================================== -->
-            @yield('content')
-            <!-- /.homebanner-holder -->
-            <!-- ============================================== CONTENT : END ============================================== -->
-         </div>
+         <!-- ============================================== CONTENT ============================================== -->
+         @yield('content')
+         <!-- /.homebanner-holder -->
+         <!-- ============================================== CONTENT : END ============================================== -->
+
          <!-- /.row -->
          <!-- ============================================== BRANDS CAROUSEL ============================================== -->
          @include('frontend.body.brands')

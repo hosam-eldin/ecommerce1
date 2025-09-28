@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\Slider;
 use App\Models\Product;
+use App\Models\MultiImgs;
 use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Support\Facades\Hash;
 
@@ -94,4 +95,12 @@ class IndexController extends Controller
             return redirect()->back()->with('error', 'sorry! Your current password does not match');
         }
     } //end method
+
+    public function productDetails($id)
+    {
+        $multiImgs = MultiImgs::where('product_id', $id)->get();
+        $categories = Category::orderBy('category_name_en', 'ASC')->get();
+        $product = Product::findOrFail($id);
+        return view('frontend.product.details', compact('product', 'categories', 'multiImgs'));
+    } //---------end method------------
 }

@@ -21,8 +21,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['guest.admin:admin']], funct
     Route::post('/login', [AdminController::class, 'login'])->name('admin.store.login');
 }); //--------------------------------------------------------------------
 
+//--------------------all admin route here---------------------------
 Route::middleware(['auth.admin:admin', 'verified'])->group(function () {
-    //--------------------all admin route here
     Route::get('/admin/logout', [AdminController::class, 'destroy'])->name('admin.logout');
     Route::get('/admin/profile/{id}', [AdminProfileController::class, 'profile'])->name('admin.profile');
     Route::get('/admin/profile/edit/{id}', [AdminProfileController::class, 'profileEdit'])->name('admin.profile.edit');
@@ -88,13 +88,17 @@ Route::middleware(['auth.admin:admin', 'verified'])->group(function () {
     });
     //------------------------------------product routes end here-----------------------------------
 });
-//-----------------------------------admin dashboard route here------------------------------
-Route::middleware(['auth.admin:admin', 'verified'])->get('/admin/dashboard', function () {
-    return view('/admin/index');
-})->name('admin.dashboard');
-//--------------------------------------end admin dashboard route-------------------------------------
+//--------------------End all admin route here-----------------------------------
+//-----------------frontend guest routes-----------------------------
+Route::get('/', [IndexController::class, 'index'])->name('home');
+Route::get('/lang/hindi', [LanguageController::class, 'hindi'])->name('hindi.language');
+Route::get('/lang/english', [LanguageController::class, 'english'])->name('english.language');
+Route::get('/product/details/{id}', [IndexController::class, 'productDetails'])->name('product.details');
+
+
+
+//---------------------------all  auth -index- route here-----------------------------------
 Route::middleware(['auth', 'verified'])->group(function () {
-    //---------------------------all index route here-----------------------------------
     Route::get('/user/logout', [IndexController::class, 'logout'])->name('user.logout');
     Route::get('/user/profile', [IndexController::class, 'userProfile'])->name('user.profile');
     Route::post('/user/profile/store', [IndexController::class, 'userProfileStore'])->name('user.profile.store');
@@ -102,11 +106,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/user/update-password', [IndexController::class, 'userUpdatePassword'])->name('user.update-password');
     //-----------------------end index all route-----------------------------------
 });
-Route::get('/', [IndexController::class, 'index'])->name('home');
-Route::get('/lang/hindi', [LanguageController::class, 'hindi'])->name('hindi.language');
-Route::get('/lang/english', [LanguageController::class, 'english'])->name('english.language');
-
 //---------------------------------------user dashboard route here--------------------------------------
 Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+//-----------------------------------admin dashboard route here------------------------------
+Route::middleware(['auth.admin:admin', 'verified'])->get('/admin/dashboard', function () {
+    return view('/admin/index');
+})->name('admin.dashboard');
+//--------------------------------------end admin dashboard route-------------------------------------
