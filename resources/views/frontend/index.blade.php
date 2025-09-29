@@ -252,22 +252,7 @@
          <!-- /.sidebar-widget -->
          <!-- ============================================== SPECIAL OFFER : END ============================================== -->
          <!-- ============================================== PRODUCT TAGS ============================================== -->
-         <div class="sidebar-widget product-tag wow fadeInUp">
-            <h3 class="section-title">Product tags</h3>
-            <div class="sidebar-widget-body outer-top-xs">
-               <div class="tag-list"> <a class="item" title="Phone" href="category.html">Phone</a> <a
-                     class="item active" title="Vest" href="category.html">Vest</a> <a class="item" title="Smartphone"
-                     href="category.html">Smartphone</a> <a class="item" title="Furniture"
-                     href="category.html">Furniture</a> <a class="item" title="T-shirt"
-                     href="category.html">T-shirt</a>
-                  <a class="item" title="Sweatpants" href="category.html">Sweatpants</a> <a class="item"
-                     title="Sneaker" href="category.html">Sneaker</a> <a class="item" title="Toys"
-                     href="category.html">Toys</a> <a class="item" title="Rose" href="category.html">Rose</a>
-               </div>
-               <!-- /.tag-list -->
-            </div>
-            <!-- /.sidebar-widget-body -->
-         </div>
+         @include('frontend.common.product_tags')
          <!-- /.sidebar-widget -->
          <!-- ============================================== PRODUCT TAGS : END ============================================== -->
          <!-- ============================================== SPECIAL DEALS ============================================== -->
@@ -1309,7 +1294,7 @@
          <!-- /.sidebar-widget -->
          <!-- ============================================== BEST SELLER : END ============================================== -->
 
-         <!-- ============================================== BLOG SLIDER ============================================== -->
+         <!-- ===============latest form blog=============================== BLOG SLIDER ============================================== -->
          <section class="section latest-blog outer-bottom-vs wow fadeInUp">
             <h3 class="section-title">latest form blog</h3>
             <div class="blog-slider-container outer-top-xs">
@@ -1439,7 +1424,7 @@
          <!-- /.section -->
          <!-- ============================================== BLOG SLIDER : END ============================================== -->
 
-         <!-- ============================================== FEATURED PRODUCTS ============================================== -->
+         <!-- ================New Arrivals============================== FEATURED PRODUCTS ============================================== -->
          <section class="section wow fadeInUp new-arriavls">
             <h3 class="section-title">New Arrivals</h3>
             <div class="owl-carousel home-owl-carousel custom-carousel owl-theme outer-top-xs">
