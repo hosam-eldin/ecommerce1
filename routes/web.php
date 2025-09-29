@@ -94,6 +94,7 @@ Route::get('/', [IndexController::class, 'index'])->name('home');
 Route::get('/lang/hindi', [LanguageController::class, 'hindi'])->name('hindi.language');
 Route::get('/lang/english', [LanguageController::class, 'english'])->name('english.language');
 Route::get('/product/details/{id}', [IndexController::class, 'productDetails'])->name('product.details');
+Route::get('/product/tag/{tag}', [IndexController::class, 'tagWiseProduct'])->name('products.tag');
 
 
 

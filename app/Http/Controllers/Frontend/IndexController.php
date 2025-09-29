@@ -109,11 +109,30 @@ class IndexController extends Controller
     {
         $hotDeals = Product::where('hot_deals', 1)->orderBy('id', 'DESC')->limit(3)->get();
         $specialOffers = Product::where('special_offer', 1)->orderBy('id', 'DESC')->limit(3)->get();
-        $specialsDeals = Product::where('special_deals', 1)->orderBy('id', 'DESC')->limit(3)->get();
+        $specialDeals = Product::where('special_deals', 1)->orderBy('id', 'DESC')->limit(3)->get();
         $featured = Product::where('featured', 1)->orderBy('id', 'DESC')->limit(6)->get();
         $multiImgs = MultiImgs::where('product_id', $id)->get();
         $categories = Category::orderBy('category_name_en', 'ASC')->get();
         $product = Product::findOrFail($id);
-        return view('frontend.product.details', compact('product', 'categories', 'multiImgs', 'featured', 'hotDeals', 'specialOffers', 'specialsDeals'));
+        return view('frontend.product.details', compact('product', 'categories', 'multiImgs', 'featured', 'hotDeals', 'specialOffers', 'specialDeals'));
     } //---------end method------------
+
+    public function tagWiseProduct($tag)
+    {
+
+        if (session()->get('language') == 'hindi') {
+            $products = Product::where('status', 1)
+                ->where('product_tags_hin', 'LIKE', "%$tag%")
+                ->orderBy('id', 'DESC')
+                ->paginate(12);
+        } else {
+
+            $products = Product::where('status', 1)
+                ->where('product_tags_en', 'LIKE', "%$tag%")
+                ->orderBy('id', 'DESC')
+                ->paginate(12);
+        }
+
+        return view('frontend.tags.tag_products', compact('products'));
+    }
 }
