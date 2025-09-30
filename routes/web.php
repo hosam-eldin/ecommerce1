@@ -95,6 +95,9 @@ Route::get('/lang/hindi', [LanguageController::class, 'hindi'])->name('hindi.lan
 Route::get('/lang/english', [LanguageController::class, 'english'])->name('english.language');
 Route::get('/product/details/{id}', [IndexController::class, 'productDetails'])->name('product.details');
 Route::get('/product/tag/{tag}', [IndexController::class, 'tagWiseProduct'])->name('products.tag');
+Route::get('/product/color/{color}', [IndexController::class, 'colorWiseProduct']);
+Route::get('/subcategory/product/{subcat_id}/{slug}', [IndexController::class, 'SubCatWiseProduct']);
+Route::get('/subsubcategory/product/{subsubcat_id}/{slug}', [IndexController::class, 'subSubCatWiseProduct']);
 
 
 

@@ -204,8 +204,9 @@
                                                 <button data-toggle="tooltip" class="btn btn-primary icon" type="button"
                                                    title="Add Cart"> <i class="fa fa-shopping-cart"></i>
                                                 </button>
-                                                <button class="btn btn-primary cart-btn" type="button">Add to
-                                                   cart</button>
+                                                <button class="btn btn-primary cart-btn"
+                                                   type="button">{{ session()->get('language') == 'hindi' ? 'नये उत्पाद' : 'Add to cart' }}
+                                                </button>
                                              </li>
                                              <li class="lnk wishlist"> <a data-toggle="tooltip" class="add-to-cart"
                                                    href="{{ route('product.details', $product->id) }}" title="Wishlist">

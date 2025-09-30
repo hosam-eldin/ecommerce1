@@ -1,5 +1,5 @@
 @extends('frontend.master')
-@section('title', session()->get('language') == 'hindi' ? 'घर' : 'tag wise product')
+@section('title', session()->get('language') == 'hindi' ? 'घर' : 'sub-subcategory wise product')
 
 
 @section('content')

@@ -275,73 +275,76 @@
 
                                           @foreach ($subcategories as $subcategory)
                                              <div class="col-xs-12 col-sm-6 col-md-2 col-menu">
+                                                <a
+                                                   href="{{ url('subcategory/product/' . $subcategory->id . '/' . $subcategory->sub_category_slug_en) }}">
+                                                   @if (session()->get('language') == 'hindi')
+                                                      <h2 class="title">{{ $subcategory->sub_category_name_hin }}
+                                                      </h2>
+                                                </a>
+                                             @else
+                                                <h2 class="title">{{ $subcategory->sub_category_name_en }}</h2> </a>
+                                          @endif
+                                          <!--   // Get SubSubCategory Table Data -->
+                                          @php
+                                             $subsubcategories = App\Models\SubSubCategory::where(
+                                                 'sub_category_id',
+                                                 $subcategory->id,
+                                             )
+                                                 ->orderBy('sub_sub_category_name_en', 'ASC')
+                                                 ->get();
+                                          @endphp
 
-                                                @if (session()->get('language') == 'hindi')
-                                                   <h2 class="title">{{ $subcategory->sub_category_name_hin }}</h2>
-                                                @else
-                                                   <h2 class="title">{{ $subcategory->sub_category_name_en }}</h2>
-                                                @endif
-                                                <!--   // Get SubSubCategory Table Data -->
-                                                @php
-                                                   $subsubcategories = App\Models\SubSubCategory::where(
-                                                       'sub_category_id',
-                                                       $subcategory->id,
-                                                   )
-                                                       ->orderBy('sub_sub_category_name_en', 'ASC')
-                                                       ->get();
-                                                @endphp
+                                          @foreach ($subsubcategories as $subsubcat)
+                                             <ul class="links">
+                                                <li>
+                                                   @if (session()->get('language') == 'hindi')
+                                                      <a
+                                                         href="{{ url('subcategory/product/' . $subsubcat->id . '/' . $subsubcat->sub_sub_category_slug_hin) }}">{{ $subsubcat->sub_sub_category_name_hin }}</a>
+                                                   @else
+                                                      <a
+                                                         href="{{ url('subcategory/product/' . $subsubcat->id . '/' . $subsubcat->sub_sub_category_slug_en) }}">{{ $subsubcat->sub_sub_category_name_en }}</a>
+                                                   @endif
+                                                </li>
+                                             </ul>
+                                          @endforeach
+                                          <!-- // End SubSubCategory Foreach -->
 
-                                                @foreach ($subsubcategories as $subsubcategory)
-                                                   <ul class="links">
-                                                      <li>
-                                                         @if (session()->get('language') == 'hindi')
-                                                            <a
-                                                               href="#">{{ $subsubcategory->sub_sub_category_name_hin }}</a>
-                                                         @else
-                                                            <a
-                                                               href="#">{{ $subsubcategory->sub_sub_category_name_en }}</a>
-                                                         @endif
-                                                      </li>
-                                                   </ul>
-                                                @endforeach <!-- // End SubSubCategory Foreach -->
-
-                                             </div>
-                                             <!-- /.col -->
-                                          @endforeach <!-- // End SubCategory Foreach -->
-
-
-                                          <div class="col-xs-12 col-sm-6 col-md-4 col-menu banner-image"> <img
-                                                class="img-responsive"
-                                                src="{{ asset('frontend/assets/images/banners/top-menu-banner.jpg') }}"
-                                                alt=""> </div>
-                                          <!-- /.yamm-content -->
                                        </div>
-                                    </div>
-                                 </li>
-                              </ul>
-                           </li>
-                        @endforeach <!-- // End Category Foreach -->
-                        <li class="dropdown  navbar-right special-menu"> <a href="#">
-                              @if (session()->get('language') == 'hindi')
-                                 आज का ऑफर
-                              @else
-                                 Todays offer
-                              @endif
-                           </a> </li>
-                     </ul>
-                     <!-- /.navbar-nav -->
-                     <div class="clearfix"></div>
-                  </div>
-                  <!-- /.nav-outer -->
-               </div>
-               <!-- /.navbar-collapse -->
+                                       <!-- /.col -->
+                        @endforeach <!-- // End SubCategory Foreach -->
 
+
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-menu banner-image"> <img class="img-responsive"
+                              src="{{ asset('frontend/assets/images/banners/top-menu-banner.jpg') }}" alt="">
+                        </div>
+                        <!-- /.yamm-content -->
+                  </div>
+               </div>
+               </li>
+               </ul>
+               </li>
+               @endforeach <!-- // End Category Foreach -->
+               <li class="dropdown  navbar-right special-menu"> <a href="#">
+                     @if (session()->get('language') == 'hindi')
+                        आज का ऑफर
+                     @else
+                        Todays offer
+                     @endif
+                  </a> </li>
+               </ul>
+               <!-- /.navbar-nav -->
+               <div class="clearfix"></div>
             </div>
-            <!-- /.nav-bg-class -->
+            <!-- /.nav-outer -->
          </div>
-         <!-- /.navbar-default -->
+         <!-- /.navbar-collapse -->
+
       </div>
-      <!-- /.container-class -->
+      <!-- /.nav-bg-class -->
+   </div>
+   <!-- /.navbar-default -->
+   </div>
+   <!-- /.container-class -->
 
    </div>
    <!-- /.header-nav -->

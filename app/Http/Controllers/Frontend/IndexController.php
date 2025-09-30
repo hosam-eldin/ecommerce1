@@ -107,6 +107,27 @@ class IndexController extends Controller
 
     public function productDetails($id)
     {
+        $product = Product::findOrFail($id);
+        $product = Product::findOrFail($id);
+
+        $relatedProducts = Product::where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id)
+            ->latest()
+            ->limit(6)
+            ->get();
+
+        $color_en = $product->product_color_en;
+        $product_color_en = explode(',', $color_en);
+
+        $color_hin = $product->product_color_hin;
+        $product_color_hin = explode(',', $color_hin);
+
+        $size_en = $product->product_size_en;
+        $product_size_en = explode(',', $size_en);
+
+        $size_hin = $product->product_size_hin;
+        $product_size_hin = explode(',', $size_hin);
+
         $hotDeals = Product::where('hot_deals', 1)->orderBy('id', 'DESC')->limit(3)->get();
         $specialOffers = Product::where('special_offer', 1)->orderBy('id', 'DESC')->limit(3)->get();
         $specialDeals = Product::where('special_deals', 1)->orderBy('id', 'DESC')->limit(3)->get();
@@ -114,25 +135,64 @@ class IndexController extends Controller
         $multiImgs = MultiImgs::where('product_id', $id)->get();
         $categories = Category::orderBy('category_name_en', 'ASC')->get();
         $product = Product::findOrFail($id);
-        return view('frontend.product.details', compact('product', 'categories', 'multiImgs', 'featured', 'hotDeals', 'specialOffers', 'specialDeals'));
-    } //---------end method------------
 
+        return view('frontend.product.details', compact(
+            'product',
+            'categories',
+            'multiImgs',
+            'featured',
+            'hotDeals',
+            'specialOffers',
+            'specialDeals',
+            'product_color_en',
+            'product_color_hin',
+            'product_size_en',
+            'product_size_hin',
+            'relatedProducts'
+        ));
+    } //---------end method------------
+    // ---------------------------------------tag-wise-products----------------
     public function tagWiseProduct($tag)
     {
 
+        $categories = Category::orderBy('category_name_en', 'ASC')->get();
         if (session()->get('language') == 'hindi') {
             $products = Product::where('status', 1)
                 ->where('product_tags_hin', 'LIKE', "%$tag%")
                 ->orderBy('id', 'DESC')
-                ->paginate(12);
+                ->paginate(1);
         } else {
-
             $products = Product::where('status', 1)
                 ->where('product_tags_en', 'LIKE', "%$tag%")
                 ->orderBy('id', 'DESC')
-                ->paginate(12);
+                ->paginate(1);
         }
+        return view('frontend.tags.tag_products', compact('products', 'categories', 'tag'));
+    } //-------------end method-----------------------
+    // ---------------------------------------color-wise-products----------------
+    public function colorWiseProduct($color_selected)
+    {
+        $categories = Category::orderBy('category_name_en', 'ASC')->get();
+        $products = Product::where('product_color_en', $color_selected)
+            ->orWhere('product_color_hin', $color_selected)
+            ->paginate(1);
 
-        return view('frontend.tags.tag_products', compact('products'));
+        return view('frontend.product.color_view', compact('products', 'color_selected', 'categories'));
+    }
+
+    // Subcategory wise data
+    public function SubCatWiseProduct($subcat_id, $slug)
+    {
+        $products = Product::where('status', 1)->where('subcategory_id', $subcat_id)->orderBy('id', 'DESC')->paginate(3);
+        $categories = Category::orderBy('category_name_en', 'ASC')->get();
+        return view('frontend.product.subcategory_view', compact('products', 'categories'));
+    }
+
+    // Subsubcategory wise data
+    public function subSubCatWiseProduct($subsubcat_id, $slug)
+    {
+        $products = Product::where('status', 1)->where('sub_sub_category_id', $subsubcat_id)->orderBy('id', 'DESC')->paginate(3);
+        $categories = Category::orderBy('category_name_en', 'ASC')->get();
+        return view('frontend.product.subsubcategory_view', compact('products', 'categories'));
     }
 }

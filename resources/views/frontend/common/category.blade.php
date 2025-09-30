@@ -1,143 +1,63 @@
 <div class="sidebar-widget wow fadeInUp">
-   <h3 class="section-title">shop by</h3>
+   <h3 class="section-title">
+      @if (session()->get('language') == 'hindi')
+         श्रेणियाँ
+      @else
+         Shop By
+      @endif
+   </h3>
    <div class="widget-header">
-      <h4 class="widget-title">Category</h4>
+      <h4 class="widget-title">
+         @if (session()->get('language') == 'hindi')
+            श्रेणियाँ
+         @else
+            Category
+         @endif
+      </h4>
    </div>
    <div class="sidebar-widget-body">
-      <div class="accordion">
-         <div class="accordion-group">
-            <div class="accordion-heading">
-               <a href="#collapseOne" data-toggle="collapse" class="accordion-toggle collapsed">
-                  Camera
-               </a>
-            </div>
-            <!-- /.accordion-heading -->
-            <div class="accordion-body collapse" id="collapseOne" style="height: 0px">
-               <div class="accordion-inner">
-                  <ul>
-                     <li><a href="#">gaming</a></li>
-                     <li><a href="#">office</a></li>
-                     <li><a href="#">kids</a></li>
-                     <li><a href="#">for women</a></li>
-                  </ul>
+      <div class="accordion" id="accordionCategories">
+         @foreach ($categories as $category)
+            @php
+               $collapseId = 'collapse' . $category->id;
+            @endphp
+            <div class="accordion-group">
+               <div class="accordion-heading">
+                  <a href="#{{ $collapseId }}" data-toggle="collapse" class="accordion-toggle collapsed"
+                     data-parent="#accordionCategories">
+                     @if (session()->get('language') == 'hindi')
+                        {{ $category->category_name_hin }}
+                     @else
+                        {{ $category->category_name_en }}
+                     @endif
+                  </a>
                </div>
-               <!-- /.accordion-inner -->
-            </div>
-            <!-- /.accordion-body -->
-         </div>
-         <!-- /.accordion-group -->
 
-         <div class="accordion-group">
-            <div class="accordion-heading">
-               <a href="#collapseTwo" data-toggle="collapse" class="accordion-toggle collapsed">
-                  Desktops
-               </a>
-            </div>
-            <!-- /.accordion-heading -->
-            <div class="accordion-body collapse" id="collapseTwo" style="height: 0px">
-               <div class="accordion-inner">
-                  <ul>
-                     <li><a href="#">gaming</a></li>
-                     <li><a href="#">office</a></li>
-                     <li><a href="#">kids</a></li>
-                     <li><a href="#">for women</a></li>
-                  </ul>
+               <div id="{{ $collapseId }}" class="accordion-body collapse">
+                  <div class="accordion-inner">
+                     @php
+                        $subcategories = App\Models\SubCategory::where('category_id', $category->id)
+                            ->orderBy('sub_category_name_en', 'ASC')
+                            ->get();
+                     @endphp
+                     <ul>
+                        @foreach ($subcategories as $subcategory)
+                           <li>
+                              <a
+                                 href="{{ url('subcategory/product/' . $subcategory->id . '/' . $subcategory->sub_category_slug_en) }}">
+                                 @if (session()->get('language') == 'hindi')
+                                    {{ $subcategory->sub_category_name_hin }}
+                                 @else
+                                    {{ $subcategory->sub_category_name_en }}
+                                 @endif
+                              </a>
+                           </li>
+                        @endforeach
+                     </ul>
+                  </div>
                </div>
-               <!-- /.accordion-inner -->
             </div>
-            <!-- /.accordion-body -->
-         </div>
-         <!-- /.accordion-group -->
-
-         <div class="accordion-group">
-            <div class="accordion-heading">
-               <a href="#collapseThree" data-toggle="collapse" class="accordion-toggle collapsed">
-                  Pants
-               </a>
-            </div>
-            <!-- /.accordion-heading -->
-            <div class="accordion-body collapse" id="collapseThree" style="height: 0px">
-               <div class="accordion-inner">
-                  <ul>
-                     <li><a href="#">gaming</a></li>
-                     <li><a href="#">office</a></li>
-                     <li><a href="#">kids</a></li>
-                     <li><a href="#">for women</a></li>
-                  </ul>
-               </div>
-               <!-- /.accordion-inner -->
-            </div>
-            <!-- /.accordion-body -->
-         </div>
-         <!-- /.accordion-group -->
-
-         <div class="accordion-group">
-            <div class="accordion-heading">
-               <a href="#collapseFour" data-toggle="collapse" class="accordion-toggle collapsed">
-                  Bags
-               </a>
-            </div>
-            <!-- /.accordion-heading -->
-            <div class="accordion-body collapse" id="collapseFour" style="height: 0px">
-               <div class="accordion-inner">
-                  <ul>
-                     <li><a href="#">gaming</a></li>
-                     <li><a href="#">office</a></li>
-                     <li><a href="#">kids</a></li>
-                     <li><a href="#">for women</a></li>
-                  </ul>
-               </div>
-               <!-- /.accordion-inner -->
-            </div>
-            <!-- /.accordion-body -->
-         </div>
-         <!-- /.accordion-group -->
-
-         <div class="accordion-group">
-            <div class="accordion-heading">
-               <a href="#collapseFive" data-toggle="collapse" class="accordion-toggle collapsed">
-                  Hats
-               </a>
-            </div>
-            <!-- /.accordion-heading -->
-            <div class="accordion-body collapse" id="collapseFive" style="height: 0px">
-               <div class="accordion-inner">
-                  <ul>
-                     <li><a href="#">gaming</a></li>
-                     <li><a href="#">office</a></li>
-                     <li><a href="#">kids</a></li>
-                     <li><a href="#">for women</a></li>
-                  </ul>
-               </div>
-               <!-- /.accordion-inner -->
-            </div>
-            <!-- /.accordion-body -->
-         </div>
-         <!-- /.accordion-group -->
-
-         <div class="accordion-group">
-            <div class="accordion-heading">
-               <a href="#collapseSix" data-toggle="collapse" class="accordion-toggle collapsed">
-                  Accessories
-               </a>
-            </div>
-            <!-- /.accordion-heading -->
-            <div class="accordion-body collapse" id="collapseSix" style="height: 0px">
-               <div class="accordion-inner">
-                  <ul>
-                     <li><a href="#">gaming</a></li>
-                     <li><a href="#">office</a></li>
-                     <li><a href="#">kids</a></li>
-                     <li><a href="#">for women</a></li>
-                  </ul>
-               </div>
-               <!-- /.accordion-inner -->
-            </div>
-            <!-- /.accordion-body -->
-         </div>
-         <!-- /.accordion-group -->
+         @endforeach
       </div>
-      <!-- /.accordion -->
    </div>
-   <!-- /.sidebar-widget-body -->
 </div>

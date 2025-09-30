@@ -11,10 +11,12 @@
          <div class="item">
             <div class="products">
                <div class="hot-deal-wrapper">
-                  <div class="image"> <img src="{{ asset($product->product_thumbnail) }}"
-                        alt="@if (session()->get('language') == 'hindi') {{ $product->product_name_hin }}
-                                 @else
-                                    {{ $product->product_name_en }} @endif">
+                  <div class="image"> <a href="{{ route('product.details', $product->id) }}">
+                        <img src="{{ asset($product->product_thumbnail) }}"
+                           alt="@if (session()->get('language') == 'hindi') {{ $product->product_name_hin }}
+              @else
+                  {{ $product->product_name_en }} @endif">
+                     </a>
                   </div>
                   @php
                      $amount = $product->selling_price - $product->discount_price;
