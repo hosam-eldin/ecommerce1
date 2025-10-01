@@ -188,6 +188,7 @@
                         </div> <!-- // end col 6 -->
                      </div><!-- /.row -->
                      <!--     /// End Add Product Color And Product Size ///// -->
+
                      <div class="quantity-container info-container">
                         <div class="row">
                            <div class="col-sm-2">

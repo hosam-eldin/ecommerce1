@@ -110,29 +110,44 @@
                <!-- /.contact-row -->
                <!-- ============================================================= SEARCH AREA ============================================================= -->
                <div class="search-area">
-                  <form>
+                  <form action="{{ route('product.search') }}" method="GET">
                      <div class="control-group">
                         <ul class="categories-filter animate-dropdown">
-                           <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown"
-                                 href="category.html">Categories <b class="caret"></b></a>
+                           <li class="dropdown">
+                              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                 <span id="selected-category-text">Categories</span>
+                                 <b class="caret"></b>
+                              </a>
                               <ul class="dropdown-menu" role="menu">
-                                 <li class="menu-header">Computer</li>
-                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="category.html">-
-                                       Clothing</a></li>
-                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="category.html">-
-                                       Electronics</a></li>
-                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="category.html">-
-                                       Shoes</a></li>
-                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="category.html">-
-                                       Watches</a></li>
+                                 @foreach ($categories as $category)
+                                    <li role="presentation">
+                                       <a role="menuitem" tabindex="-1" href="#"
+                                          onclick="selectCategory('{{ $category->id }}', '{{ $category->category_name_en }}')">
+                                          {{ $category->category_name_en }}
+                                       </a>
+                                    </li>
+                                 @endforeach
                               </ul>
                            </li>
                         </ul>
-                        <input class="search-field" placeholder="Search here..." />
-                        <a class="search-button" href="#"></a>
+
+                        <input type="hidden" name="category_id" id="selected-category-id" value="">
+                        <input id="search-field" name="search" class="search-field" placeholder="Search here..." />
+                        <button class="search-button" type="submit"></button>
                      </div>
                   </form>
                </div>
+
+               <script>
+                  function selectCategory(id, name) {
+                     document.getElementById('selected-category-id').value = id;
+                     document.getElementById('selected-category-text').innerText = name;
+                     document.getElementById('search-field').placeholder = "Search in " + name + "...";
+                  }
+               </script>
+
+
+
                <!-- /.search-area -->
                <!-- =================================== SEARCH AREA : END ============================================================= -->
             </div>
