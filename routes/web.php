@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Frontend\LanguageController;
+use App\Http\Controllers\Frontend\CartController;
 
 
 
@@ -99,7 +100,14 @@ Route::get('/product/tag/{tag}', [IndexController::class, 'tagWiseProduct'])->na
 Route::get('/product/color/{color}', [IndexController::class, 'colorWiseProduct']);
 Route::get('/subcategory/product/{subcat_id}/{slug}', [IndexController::class, 'SubCatWiseProduct']);
 Route::get('/subsubcategory/product/{subsubcat_id}/{slug}', [IndexController::class, 'subSubCatWiseProduct']);
+// Product View Modal with Ajax
 Route::get('/product/view/modal/{id}', [IndexController::class, 'ProductViewAjax']);
+// Add to Cart Store Data
+Route::post('/cart/data/store/{id}', [CartController::class, 'addToCart']);
+// Add to mini-Cart
+Route::get('/product/mini/cart/', [CartController::class, 'AddMiniCart']);
+// Remove mini cart
+Route::get('/minicart/product-remove/{rowId}', [CartController::class, 'RemoveMiniCart']);
 
 
 
