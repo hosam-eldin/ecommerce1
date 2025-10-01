@@ -79,7 +79,7 @@
                <!-- /.gallery-holder -->
                <div class="col-sm-6 col-md-7 product-info-block">
                   <div class="product-info">
-                     <h1 class="name">
+                     <h1 id="pname" class="name">
                         @if (session()->get('language') == 'hindi')
                            {{ $product->product_name_hin }}
                         @else
@@ -167,7 +167,8 @@
                         <div class="col-sm-6">
                            <div class="form-group">
                               <label class="info-title control-label">Choose Color <span> </span></label>
-                              <select class="form-control unicase-form-control selectpicker" style="display: none;">
+                              <select id="pcolor" class="form-control unicase-form-control selectpicker"
+                                 style="display: none;">
                                  <option selected="" disabled="">--Choose Color--</option>
                                  @foreach ($product_color_en as $color)
                                     <option value="{{ $color }}">{{ ucfirst($color) }}</option>
@@ -176,18 +177,25 @@
                            </div> <!-- // end form group -->
                         </div> <!-- // end col 6 -->
                         <div class="col-sm-6">
-                           <div class="form-group">
-                              <label class="info-title control-label">Choose Size <span> </span></label>
-                              <select class="form-control unicase-form-control selectpicker" style="display: none;">
-                                 <option selected="" disabled="">--Choose Size--</option>
-                                 @foreach ($product_size_en as $size)
-                                    <option value="{{ $size }}">{{ ucfirst($size) }}</option>
-                                 @endforeach
-                              </select>
-                           </div> <!-- // end form group -->
+                           @if ($product->product_size_en == null)
+                           @else
+                              <div class="form-group">
+
+                                 <label class="info-title control-label">Choose Size <span> </span></label>
+                                 <select id="psize" class="form-control unicase-form-control selectpicker"
+                                    style="display: none;">
+                                    <option selected="" disabled="">--Choose Size--</option>
+                                    @foreach ($product_size_en as $size)
+                                       <option value="{{ $size }}">{{ ucfirst($size) }}</option>
+                                    @endforeach
+                                 </select>
+
+                              </div> <!-- // end form group -->
+                           @endif
                         </div> <!-- // end col 6 -->
                      </div><!-- /.row -->
                      <!--     /// End Add Product Color And Product Size ///// -->
+
                      <div class="quantity-container info-container">
                         <div class="row">
                            <div class="col-sm-2">
@@ -202,13 +210,14 @@
                                        <div class="arrow minus gradient"><span class="ir"><i
                                                 class="icon fa fa-sort-desc"></i></span></div>
                                     </div>
-                                    <input type="text" value="1">
+                                    <input type="text" id="pqty" value="1" min="1">
                                  </div>
                               </div>
                            </div>
                            <div class="col-sm-7">
-                              <a href="#" class="btn btn-primary"><i
-                                    class="fa fa-shopping-cart inner-right-vs"></i> ADD TO CART</a>
+                              <input type="hidden" id="product_id" value="{{ $product->id }}" min="1">
+                              <button type="submit" onclick="addToCart()" class="btn btn-primary"><i
+                                    class="fa fa-shopping-cart inner-right-vs"></i> ADD TO CART</button>
                            </div>
                         </div><!-- /.row -->
                      </div><!-- /.quantity-container -->

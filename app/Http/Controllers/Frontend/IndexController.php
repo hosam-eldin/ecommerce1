@@ -17,6 +17,30 @@ use Illuminate\Support\Facades\Hash;
 class IndexController extends Controller
 {
     use HasProfilePhoto;
+
+    public function productSearch(Request $request)
+    {
+        $categories = Category::orderBy('category_name_en', 'ASC')->get();
+        //----------------------------------------//
+        $search = $request->search;
+        $category = $request->category;
+
+        if ($category == 'all') {
+            $products = Product::where('product_name_en', 'LIKE', "%$search%")
+                ->orWhere('product_name_hin', 'LIKE', "%$search%")
+                ->paginate(10);
+        } else {
+            $products = Product::where('category_id', $category)
+                ->where(function ($q) use ($search) {
+                    $q->where('product_name_en', 'LIKE', "%$search%")
+                        ->orWhere('product_name_hin', 'LIKE', "%$search%");
+                })
+                ->paginate(10);
+        }
+        return view('frontend.product.search_result', compact('products', 'categories'));
+    } //--------------end method----------------
+
+
     public function index()
     {
         $hotDeals = Product::where('hot_deals', 1)->where('discount_price', '!=', 1)->orderBy('id', 'DESC')->limit(3)->get();
@@ -194,5 +218,29 @@ class IndexController extends Controller
         $products = Product::where('status', 1)->where('sub_sub_category_id', $subsubcat_id)->orderBy('id', 'DESC')->paginate(3);
         $categories = Category::orderBy('category_name_en', 'ASC')->get();
         return view('frontend.product.subsubcategory_view', compact('products', 'categories'));
-    }
+    } //------------------------------end-Subsubcategory wise data
+
+    ///---------- Product View With Ajax-----------------
+    public function ProductViewAjax($id)
+    {
+        $product = Product::findOrFail($id);
+
+        $categoryName = Category::where('id', $product->category_id)->value('category_name_en');
+        $brandName    = Brand::where('id', $product->brand_id)->value('brand_name_en');
+
+        $color = $product->product_color_en;
+        $product_color = explode(',', $color);
+
+        $size = $product->product_size_en;
+        $product_size = explode(',', $size);
+
+        return response()->json(array(
+            'product' => $product,
+            'color' => $product_color,
+            'size' => $product_size,
+            'category_name_en' => $categoryName,
+            'brand_name_en'    => $brandName,
+
+        ));
+    } //--------------------------- end method 
 }

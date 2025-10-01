@@ -16,7 +16,7 @@
                   <div class="product-image">
                      <div class="image"> <a href="{{ route('product.details', $product->id) }}"><img
                               src="{{ asset($product->product_thumbnail) }}"
-                              alt="{{ session('language') == 'hindi' ? $related->product_name_hin : $related->product_name_en }}"></a>
+                              alt="{{ session('language') == 'hindi' ? $product->product_name_hin : $product->product_name_en }}"></a>
                      </div>
                      <!-- /.image -->
 

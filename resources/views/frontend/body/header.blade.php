@@ -110,29 +110,44 @@
                <!-- /.contact-row -->
                <!-- ============================================================= SEARCH AREA ============================================================= -->
                <div class="search-area">
-                  <form>
+                  <form action="{{ route('product.search') }}" method="GET">
                      <div class="control-group">
                         <ul class="categories-filter animate-dropdown">
-                           <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown"
-                                 href="category.html">Categories <b class="caret"></b></a>
+                           <li class="dropdown">
+                              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                 <span id="selected-category-text">Categories</span>
+                                 <b class="caret"></b>
+                              </a>
                               <ul class="dropdown-menu" role="menu">
-                                 <li class="menu-header">Computer</li>
-                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="category.html">-
-                                       Clothing</a></li>
-                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="category.html">-
-                                       Electronics</a></li>
-                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="category.html">-
-                                       Shoes</a></li>
-                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="category.html">-
-                                       Watches</a></li>
+                                 @foreach ($categories as $category)
+                                    <li role="presentation">
+                                       <a role="menuitem" tabindex="-1" href="#"
+                                          onclick="selectCategory('{{ $category->id }}', '{{ $category->category_name_en }}')">
+                                          {{ $category->category_name_en }}
+                                       </a>
+                                    </li>
+                                 @endforeach
                               </ul>
                            </li>
                         </ul>
-                        <input class="search-field" placeholder="Search here..." />
-                        <a class="search-button" href="#"></a>
+
+                        <input type="hidden" name="category_id" id="selected-category-id" value="">
+                        <input id="search-field" name="search" class="search-field" placeholder="Search here..." />
+                        <button class="search-button" type="submit"></button>
                      </div>
                   </form>
                </div>
+
+               <script>
+                  function selectCategory(id, name) {
+                     document.getElementById('selected-category-id').value = id;
+                     document.getElementById('selected-category-text').innerText = name;
+                     document.getElementById('search-field').placeholder = "Search in " + name + "...";
+                  }
+               </script>
+
+
+
                <!-- /.search-area -->
                <!-- =================================== SEARCH AREA : END ============================================================= -->
             </div>
@@ -145,7 +160,7 @@
                      data-toggle="dropdown">
                      <div class="items-cart-inner">
                         <div class="basket"> <i class="glyphicon glyphicon-shopping-cart"></i> </div>
-                        <div class="basket-item-count"><span class="count">2</span></div>
+                        <div class="basket-item-count"><span class="count" id="cartQty"></span></div>
                         <div class="total-price-basket"> <span class="lbl">
                               @if (session()->get('language') == 'hindi')
                                  गाड़ी -
@@ -153,36 +168,20 @@
                                  cart -
                               @endif
                            </span> <span class="total-price">
-                              <span class="sign">$</span><span class="value">600.00</span>
+                              <span class="sign">$</span>
+                              <span id="cartSubTotal" class="value"> </span>
                            </span> </div>
                      </div>
                   </a>
                   <ul class="dropdown-menu">
                      <li>
-                        <div class="cart-item product-summary">
-                           <div class="row">
-                              <div class="col-xs-4">
-                                 <div class="image"> <a href="detail.html"><img
-                                          src="{{ asset('frontend/assets/images/cart.jpg') }}" alt=""></a>
-                                 </div>
-                              </div>
-                              <div class="col-xs-7">
-                                 <h3 class="name"><a href="index.php?page-detail">
-                                       @if (session()->get('language') == 'hindi')
-                                          सरल उत्पाद
-                                       @else
-                                          Simple Product
-                                       @endif
-                                    </a></h3>
-                                 <div class="price">$600.00</div>
-                              </div>
-                              <div class="col-xs-1 action"> <a href="#"><i class="fa fa-trash"></i></a>
-                              </div>
-                           </div>
+                        <!--   // Mini Cart Start with Ajax -->
+
+                        <div id="miniCart">
+
                         </div>
-                        <!-- /.cart-item -->
-                        <div class="clearfix"></div>
-                        <hr>
+
+                        <!--   // End Mini Cart Start with Ajax -->
                         <div class="clearfix cart-total">
                            <div class="pull-right"> <span class="text">
                                  @if (session()->get('language') == 'hindi')
@@ -190,7 +189,7 @@
                                  @else
                                     Sub Total :
                                  @endif
-                              </span><span class='price'>$600.00</span> </div>
+                              </span><span class='price' id="cartSubTotal"> </span> </div>
                            <div class="clearfix"></div>
                            <a href="checkout.html" class="btn btn-upper btn-primary btn-block m-t-20">
                               @if (session()->get('language') == 'hindi')
