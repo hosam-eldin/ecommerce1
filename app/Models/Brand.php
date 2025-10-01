@@ -15,4 +15,9 @@ class Brand extends Model
         'brand_slug_hin',
         'brand_photo',
     ];
+
+    public function products()
+    {
+        return $this->hasMany(product::class, 'brand_id', 'id');
+    }
 }
