@@ -91,6 +91,7 @@
       }
    </script>//----------End-Search--selectCategory-----------//
 
+
    <!------------------------------  Product view with Modal ------------------>
    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -133,21 +134,21 @@
                         <select class="form-control" id="pcolor"></select>
 
                      </div>
-                     @if ($product->product_size_en == null)
-                     @else
-                        <div class="form-group">
 
-                           <label for="psize">Choose Size</label>
-                           <select class="form-control" id="psize"></select>
+                     <div class="form-group" id="sizeArea">
 
-                        </div>
-                     @endif
+                        <label for="psize">Choose Size</label>
+                        <select class="form-control" id="psize"></select>
+
+                     </div>
+
                      <div class="form-group">
                         <label for="pqty">Quantity</label>
                         <input type="number" class="form-control" id="pqty" value="1" min="1">
                      </div>
                      <input type="hidden" id="product_id">
-                     <button type="submit" onclick="addToCart()" class="btn btn-primary mb-2">Add to Cart</button>
+                     <button type="submit" id="addToCartBtn" onclick="addToCart()" class="btn btn-primary mb-2">Add
+                        to Cart</button>
                   </div><!-- // end col md -->
                </div>
             </div>
@@ -156,6 +157,7 @@
    </div>
    <!------------------------------  Product view with Modal ------------------>
 
+   <!------------------------------script-  Product view with Modal ------------------>
    <script type="text/javascript">
       $.ajaxSetup({
          headers: {
@@ -188,6 +190,7 @@
                         'padding': '3px 8px',
                         'border-radius': '5px'
                      });
+                  $('#addToCartBtn').show();
                } else {
                   $('#pstock')
                      .text('Out of stock')
@@ -197,6 +200,7 @@
                         'padding': '3px 8px',
                         'border-radius': '5px'
                      });
+                  $('#addToCartBtn').hide();
                }
 
                if (data.product.discount_price == null) {
@@ -206,6 +210,17 @@
                   $('#pprice').text('$' + data.product.discount_price);
                   $('#oldprice').text('$' + data.product.selling_price);
                }
+
+               if (data.product.product_size_en == null) {
+                  $('#sizeArea').hide();
+               } else {
+                  $('#sizeArea').show();
+                  $('#psize').empty();
+                  $.each(data.size, function(key, value) {
+                     $('#psize').append('<option value="' + value + '">' + value + '</option>');
+                  });
+               }
+
 
                $('#pcolor').empty();
                $.each(data.color, function(key, value) {
@@ -270,7 +285,8 @@
       }
       // End Add to Cart Product Modal-------------
    </script>
-   //--------- Add to mini Cart -----------
+   <!------------------------------End-script--  Product view with Modal ------------------>
+   //--------- Add to mini Cart -------------------//
    <script type="text/javascript">
       function miniCart() {
          $.ajax({
@@ -286,12 +302,12 @@
                   miniCart += `<div class="cart-item product-summary">
                            <div class="row">
                               <div class="col-xs-4">
-                                 <div class="image"> <a href="{{ route('product.details', $product->id) }}"><img
+                                 <div class="image"> <a href="/product/details/${value.id}"><img
                                           src="/${value.options.image}" alt=""></a>
                                  </div>
                               </div>
                               <div class="col-xs-7">
-                                 <h3 class="name"><a href="{{ route('product.details', $product->id) }}">
+                                 <h3 class="name"><a href="/product/details/${value.id}">
                                        @if (session()->get('language') == 'hindi')
                                           सरल उत्पाद
                                        @else
@@ -333,19 +349,21 @@
                const Toast = Swal.mixin({
                   toast: true,
                   position: 'top-end',
-                  icon: 'success',
+
                   showConfirmButton: false,
                   timer: 3000
                })
                if ($.isEmptyObject(data.error)) {
                   Toast.fire({
                      type: 'success',
+                     icon: 'success',
                      title: data.success
                   })
 
                } else {
                   Toast.fire({
                      type: 'error',
+                     icon: 'error',
                      title: data.error
                   })
 
@@ -360,6 +378,125 @@
 
       //  end mini cart remove 
    </script>
+   //--------- end Add to mini Cart -------------------//
+
+   <!--------------  /// Start Add Wishlist Page  //// ----------->
+   <script type="text/javascript">
+      function addToWishList(product_id) {
+         $.ajax({
+            type: "POST",
+            dataType: 'json',
+            url: "/user/add-to-wishlist/" + product_id,
+            data: {
+               _token: "{{ csrf_token() }}"
+            },
+            success: function(data) {
+
+               // Start Message 
+               const Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 3000
+               });
+
+               if ($.isEmptyObject(data.error)) {
+                  Toast.fire({
+                     icon: 'success',
+                     title: data.success
+                  });
+
+               } else {
+                  Toast.fire({
+                     icon: 'error',
+                     title: data.error
+                  });
+               }
+               // End Message 
+            }
+         });
+      }
+   </script>
+   <!----------------  /// End Add Wishlist Page  //// -------------  -->
+   <!----------------  /// load Wishlist products  //// -------------  -->
+   <script type="text/javascript">
+      function WishList() {
+         $.ajax({
+            type: 'GET',
+            url: '/user/get-WishList-product',
+            dataType: 'json',
+            data: {
+               _token: "{{ csrf_token() }}"
+            },
+            success: function(response) {
+
+               var rows = ""
+               $.each(response, function(key, value) {
+                  rows += `<tr>
+                    <td class="col-md-2"><img src="/${value.product.product_thumbnail} " alt="image"></td>
+                    <td class="col-md-7">
+                       <div class="product-name"><a href="#">${value.product.product_name_en}</a></div>
+                       
+                       <div class="price">
+                        ${value.product.discount_price == null
+                            ? `${value.product.selling_price}`
+                            :
+                            `${value.product.discount_price} <span>${value.product.selling_price}</span>`
+                        }
+                        </div>
+                    </td>
+        <td class="col-md-2">
+            <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal" id="${value.product_id}" onclick="ProductViewAjax(this.id)"> Add to Cart </button>
+        </td>
+        <td class="col-md-1 close-btn">
+            <button type="submit" class="" id="${value.id}" onclick="wishlistRemove(this.id)"><i class="fa fa-times"></i></button>
+        </td>
+                </tr>`
+               });
+
+               $('#wishList').html(rows);
+            }
+         })
+
+      }
+      WishList();
+
+      ///  Wishlist remove Start 
+      function wishlistRemove(id) {
+         $.ajax({
+            type: 'GET',
+            url: '/user/wishlist-remove/' + id,
+            dataType: 'json',
+            success: function(data) {
+               WishList();
+
+               // Start Message 
+               const Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 3000
+               })
+               if ($.isEmptyObject(data.error)) {
+                  Toast.fire({
+                     type: 'success',
+                     icon: 'success',
+                     title: data.success
+                  })
+               } else {
+                  Toast.fire({
+                     type: 'error',
+                     icon: 'error',
+                     title: data.error
+                  })
+               }
+               // End Message 
+            }
+         });
+      }
+      // End Wishlist remove   
+   </script>
+
 
    <x-toastr />
 </body>

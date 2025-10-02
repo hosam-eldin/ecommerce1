@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Wishlist;
+use Carbon\Carbon;
 
 class CartController extends Controller
 {
@@ -64,9 +67,31 @@ class CartController extends Controller
     } // end method 
 
     /// remove mini cart 
-    public function RemoveMiniCart($rowId)
+    public function miniCartRemove($rowId)
     {
         Cart::remove($rowId);
         return response()->json(['success' => 'Product Remove from Cart']);
-    } // end mehtod 
+    } //------------------- end method ----------------------------//
+
+    // add to wishlist method 
+    public function AddToWishList($product_id)
+    {
+        if (Auth::check()) {
+            $exists = Wishlist::where('user_id', Auth::id())
+                ->where('product_id', $product_id)
+                ->first();
+
+            if ($exists) {
+                return response()->json(['error' => 'Product already in your wishlist']);
+            } else {
+                Wishlist::create([
+                    'user_id'    => Auth::id(),
+                    'product_id' => $product_id,
+                ]);
+                return response()->json(['success' => 'Product added to your wishlist']);
+            }
+        } else {
+            return response()->json(['error' => 'Please login first']);
+        }
+    } //-----------end-method-----------------------//
 }
