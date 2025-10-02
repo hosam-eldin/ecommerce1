@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Frontend\LanguageController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\User\WishListController;
 
 
 
@@ -107,7 +108,16 @@ Route::post('/cart/data/store/{id}', [CartController::class, 'addToCart']);
 // Add to mini-Cart
 Route::get('/product/mini/cart/', [CartController::class, 'AddMiniCart']);
 // Remove mini cart
-Route::get('/minicart/product-remove/{rowId}', [CartController::class, 'RemoveMiniCart']);
+Route::get('/minicart/product-remove/{rowId}', [CartController::class, 'miniCartRemove']);
+// Add to Wishlist
+Route::post('/add-to-wishlist/{product_id}', [CartController::class, 'addToWishList']);
+//wishlist
+Route::get('/my-wishlist', [WishListController::class, 'viewWishList'])->name('wishlist');
+//load wishlist products-----
+Route::get('/get-WishList-product', [WishListController::class, 'GetWishlistProduct']);
+// Remove wishlist
+Route::get('/wishlist-remove/{id}', [WishListController::class, 'RemoveWishlistProduct']);
+
 
 
 
@@ -118,6 +128,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/user/profile/store', [IndexController::class, 'userProfileStore'])->name('user.profile.store');
     Route::get('/user/change-password', [IndexController::class, 'userChangePassword'])->name('user.change-password');
     Route::post('/user/update-password', [IndexController::class, 'userUpdatePassword'])->name('user.update-password');
+
+    // Add to Wishlist
+    Route::post('/user/add-to-wishlist/{product_id}', [CartController::class, 'addToWishList']);
+    //wishlist
+    Route::get('/user/my-wishlist', [WishListController::class, 'viewWishList'])->name('wishlist');
+    //load wishlist products-----
+    Route::get('/user/get-WishList-product', [WishListController::class, 'GetWishlistProduct']);
+    // Remove wishlist
+    Route::get('/user/wishlist-remove/{id}', [WishListController::class, 'RemoveWishlistProduct']);
     //-----------------------end index all route-----------------------------------
 });
 //---------------------------------------user dashboard route here--------------------------------------

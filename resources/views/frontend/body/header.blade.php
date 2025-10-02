@@ -12,7 +12,7 @@
                            My Account
                         @endif
                      </a></li>
-                  <li><a href="#"><i class="icon fa fa-heart"></i>
+                  <li><a href="{{ route('wishlist') }}"><i class="icon fa fa-heart"></i>
                         @if (session()->get('language') == 'hindi')
                            इच्छा-सूची
                         @else
@@ -106,6 +106,11 @@
             </div>
             <!-- /.logo-holder -->
 
+            @php
+               $categories = App\Models\Category::orderBy('category_name_en', 'ASC')->get();
+            @endphp
+
+
             <div class="col-xs-12 col-sm-12 col-md-7 top-search-holder">
                <!-- /.contact-row -->
                <!-- ============================================================= SEARCH AREA ============================================================= -->
@@ -130,24 +135,12 @@
                               </ul>
                            </li>
                         </ul>
-
                         <input type="hidden" name="category_id" id="selected-category-id" value="">
                         <input id="search-field" name="search" class="search-field" placeholder="Search here..." />
                         <button class="search-button" type="submit"></button>
                      </div>
                   </form>
                </div>
-
-               <script>
-                  function selectCategory(id, name) {
-                     document.getElementById('selected-category-id').value = id;
-                     document.getElementById('selected-category-text').innerText = name;
-                     document.getElementById('search-field').placeholder = "Search in " + name + "...";
-                  }
-               </script>
-
-
-
                <!-- /.search-area -->
                <!-- =================================== SEARCH AREA : END ============================================================= -->
             </div>

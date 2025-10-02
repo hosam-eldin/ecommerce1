@@ -446,11 +446,13 @@
                                        </button>
 
                                     </li>
-                                    <li class="lnk wishlist"> <a data-toggle="tooltip" class="add-to-cart"
-                                          href="{{ route('product.details', $product->id) }}" title="Wishlist">
-                                          <i class="icon fa fa-heart"></i>
-                                       </a>
-                                    </li>
+
+                                    <button id="{{ $product->id }}" onclick="addToWishList(this.id)"
+                                       class="btn
+                                          btn-primary icon"
+                                       type="button" title="WishList"> <i class="fa fa-heart"></i>
+                                    </button>
+
                                     <li class="lnk"> <a data-toggle="tooltip" class="add-to-cart"
                                           href="{{ route('product.details', $product->id) }}" title="Compare">
                                           <i class="fa fa-signal" aria-hidden="true"></i> </a>

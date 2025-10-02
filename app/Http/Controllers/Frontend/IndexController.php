@@ -11,6 +11,7 @@ use App\Models\Slider;
 use App\Models\Product;
 use App\Models\MultiImgs;
 use App\Models\Brand;
+
 use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Support\Facades\Hash;
 
@@ -71,8 +72,9 @@ class IndexController extends Controller
 
     public function userProfile()
     {
+
         $user = auth()->user();
-        return view('frontend.profile.user_profile', compact('user'));
+        return view('frontend.profile.user_profile', compact('user',));
     } //end method
 
     public function userProfileStore(Request $request)
@@ -243,4 +245,6 @@ class IndexController extends Controller
 
         ));
     } //--------------------------- end method 
+
+
 }
