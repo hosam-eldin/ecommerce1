@@ -82,14 +82,16 @@
    <script src="{{ asset('frontend/assets/js/scripts.js') }}"></script>
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+   //----------Search--selectCategory-----------//
    <script>
-      //----------Search--selectCategory-----------//
       function selectCategory(id, name) {
          document.getElementById('selected-category-id').value = id;
          document.getElementById('selected-category-text').innerText = name;
          document.getElementById('search-field').placeholder = "Search in " + name + "...";
       }
-   </script>//----------End-Search--selectCategory-----------//
+   </script>
+   //----------End-Search--selectCategory-----------//
 
 
    <!------------------------------  Product view with Modal ------------------>
@@ -155,7 +157,7 @@
          </div>
       </div>
    </div>
-   <!------------------------------  Product view with Modal ------------------>
+   <!------------------------------ End- Product view with Modal ------------------>
 
    <!------------------------------script-  Product view with Modal ------------------>
    <script type="text/javascript">
@@ -286,7 +288,7 @@
       // End Add to Cart Product Modal-------------
    </script>
    <!------------------------------End-script--  Product view with Modal ------------------>
-   //--------- Add to mini Cart -------------------//
+   {{-- //--------- Add to mini Cart -------------------// --}}
    <script type="text/javascript">
       function miniCart() {
          $.ajax({
@@ -378,7 +380,7 @@
 
       //  end mini cart remove 
    </script>
-   //--------- end Add to mini Cart -------------------//
+   {{-- //--------- end- Add to mini Cart -------------------// --}}
 
    <!--------------  /// Start Add Wishlist Page  //// ----------->
    <script type="text/javascript">
@@ -417,7 +419,8 @@
          });
       }
    </script>
-   <!----------------  /// End Add Wishlist Page  //// -------------  -->
+   <!----------------  /// End- Add Wishlist Page  //// -------------  -->
+
    <!----------------  /// load Wishlist products  //// -------------  -->
    <script type="text/javascript">
       function WishList() {
@@ -496,6 +499,131 @@
       }
       // End Wishlist remove   
    </script>
+   <!----------------  ///End- load Wishlist products  //// -------------  -->
+
+   <!-- /// Load My Cart /// -->
+   <script type="text/javascript">
+      function myCart() {
+         $.ajax({
+            type: 'GET',
+            url: '/user/get-mycart-product',
+            dataType: 'json',
+            data: {
+               _token: "{{ csrf_token() }}"
+            },
+            success: function(response) {
+               var rows = ""
+               $.each(response.carts, function(key, value) {
+                  rows += `<tr>
+        <td class="col-md-2"><img src="/${value.options.image} " alt="imga" style="width:60px; height:60px;"></td>
+        <td class="col-md-2">
+            <div class="product-name"><a href="#">${value.name}</a></div>
+            <div class="price"> 
+                            ${value.price}
+                        </div>
+                    </td>
+                     <td class="col-md-2">
+            <strong>${value.options.color} </strong> 
+            </td>
+
+         <td class="col-md-2">
+          ${value.options.size == null
+            ? `<span> .... </span>`
+            :
+          `<strong>${value.options.size} </strong>` 
+          }           
+            </td>
+
+           <td class="col-md-2">
+              ${value.qty > 1
+
+            ? `<button type="submit" class="btn btn-danger btn-sm" id="${value.rowId}" onclick="cartDecrement(this.id)" >-</button> `
+
+            : `<button type="submit" class="btn btn-danger btn-sm" disabled >-</button> `
+            } 
+            <strong>${value.qty} </strong> 
+            <button type="submit" class="btn btn-success btn-sm" id="${value.rowId}" onclick="cartIncrement(this.id)" >+</button>
+
+            </td>
+
+             <td class="col-md-2">
+            <strong>$${value.subtotal} </strong> 
+            </td>
+        <td class="col-md-1 close-btn">
+            <button type="submit" class="" id="${value.rowId}" onclick="myCartRemove(this.id)"><i class="fa fa-times"></i></button>
+        </td>
+                </tr>`
+               });
+               $('#mycart').html(rows);
+            }
+         })
+      }
+      myCart();
+
+      ///  Wishlist remove Start 
+      function myCartRemove(rowId) {
+         $.ajax({
+            type: 'GET',
+            url: '/user/mycart-remove/' + rowId,
+            dataType: 'json',
+            success: function(data) {
+               myCart();
+               miniCart();
+               // Start Message 
+               const Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 3000
+               })
+               if ($.isEmptyObject(data.error)) {
+                  Toast.fire({
+                     type: 'success',
+                     icon: 'success',
+                     title: data.success
+                  })
+               } else {
+                  Toast.fire({
+                     type: 'error',
+                     icon: 'error',
+                     title: data.error
+                  })
+               }
+               // End Message 
+            }
+         });
+      }
+      // End Wishlist remove   
+
+      // -------- CART INCREMENT --------//
+      function cartIncrement(rowId) {
+         $.ajax({
+            type: 'GET',
+            url: "/cart-increment/" + rowId,
+            dataType: 'json',
+            success: function(data) {
+               myCart();
+               miniCart();
+            }
+         });
+      }
+      // ---------- END CART INCREMENT -----///
+
+      // -------- CART Decrement  --------//
+      function cartDecrement(rowId) {
+         $.ajax({
+            type: 'GET',
+            url: "/cart-decrement/" + rowId,
+            dataType: 'json',
+            success: function(data) {
+               myCart();
+               miniCart();
+            }
+         });
+      }
+      // ---------- END CART Decrement -----///
+   </script>
+   <!-- //End Load My cart / -->
 
 
    <x-toastr />

@@ -15,8 +15,30 @@ class WishListController extends Controller
     //wishlist-view
     public function viewWishList()
     {
-        return view('frontend.my_wishlist');
+        return view('frontend.wishlist.my_wishlist');
     } //---------------end-method----------//
+
+    // add to wishlist method 
+    public function AddToWishList($product_id)
+    {
+        if (Auth::check()) {
+            $exists = Wishlist::where('user_id', Auth::id())
+                ->where('product_id', $product_id)
+                ->first();
+
+            if ($exists) {
+                return response()->json(['error' => 'Product already in your wishlist']);
+            } else {
+                Wishlist::create([
+                    'user_id'    => Auth::id(),
+                    'product_id' => $product_id,
+                ]);
+                return response()->json(['success' => 'Product added to your wishlist']);
+            }
+        } else {
+            return response()->json(['error' => 'Please login first']);
+        }
+    } //-----------end-method-----------------------//
 
     public function GetWishlistProduct()
     {

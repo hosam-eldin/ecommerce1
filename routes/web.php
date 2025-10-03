@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Frontend\LanguageController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\User\WishListController;
+use App\Http\Controllers\User\CartPageController;
 
 
 
@@ -109,19 +110,21 @@ Route::post('/cart/data/store/{id}', [CartController::class, 'addToCart']);
 Route::get('/product/mini/cart/', [CartController::class, 'AddMiniCart']);
 // Remove mini cart
 Route::get('/minicart/product-remove/{rowId}', [CartController::class, 'miniCartRemove']);
-// Add to Wishlist
-Route::post('/add-to-wishlist/{product_id}', [CartController::class, 'addToWishList']);
-//wishlist
-Route::get('/my-wishlist', [WishListController::class, 'viewWishList'])->name('wishlist');
-//load wishlist products-----
-Route::get('/get-WishList-product', [WishListController::class, 'GetWishlistProduct']);
-// Remove wishlist
-Route::get('/wishlist-remove/{id}', [WishListController::class, 'RemoveWishlistProduct']);
+//my-cart-view
+Route::get('/user/my-cart', [CartPageController::class, 'viewMyCart'])->name('mycart');
+//load my-cart products-----
+Route::get('/user/get-mycart-product', [CartPageController::class, 'GetMyCartProduct']);
+// Remove my-cart
+Route::get('/user/mycart-remove/{id}', [CartPageController::class, 'RemoveMyCartProduct']);
+//CartIncrement
+Route::get('/cart-increment/{rowId}', [CartPageController::class, 'CartIncrement']);
+//CartDecrement
+Route::get('/cart-decrement/{rowId}', [CartPageController::class, 'CartDecrement']);
 
 
 
 
-//---------------------------all  auth -index- route here-----------------------------------
+// ---------------------------all  auth -index- route here-----------------------------------
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/user/logout', [IndexController::class, 'logout'])->name('user.logout');
     Route::get('/user/profile', [IndexController::class, 'userProfile'])->name('user.profile');
@@ -130,14 +133,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/user/update-password', [IndexController::class, 'userUpdatePassword'])->name('user.update-password');
 
     // Add to Wishlist
-    Route::post('/user/add-to-wishlist/{product_id}', [CartController::class, 'addToWishList']);
-    //wishlist
+    Route::post('/user/add-to-wishlist/{product_id}', [WishListController::class, 'addToWishList']);
+    //wishlist-view
     Route::get('/user/my-wishlist', [WishListController::class, 'viewWishList'])->name('wishlist');
     //load wishlist products-----
     Route::get('/user/get-WishList-product', [WishListController::class, 'GetWishlistProduct']);
     // Remove wishlist
     Route::get('/user/wishlist-remove/{id}', [WishListController::class, 'RemoveWishlistProduct']);
-    //-----------------------end index all route-----------------------------------
+
+    //-----------------------end- auth- index- all route-----------------------------------
 });
 //---------------------------------------user dashboard route here--------------------------------------
 Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
