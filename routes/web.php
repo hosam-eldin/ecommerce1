@@ -5,10 +5,14 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\AdminProfileController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Backend\BrandController;
+use App\Http\Controllers\Backend\Shipping\DivisionController;
+use App\Http\Controllers\Backend\Shipping\DistrictController;
+use App\Http\Controllers\Backend\Shipping\StateController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\SliderController;
+use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Frontend\LanguageController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\User\WishListController;
@@ -89,9 +93,49 @@ Route::middleware(['auth.admin:admin', 'verified'])->group(function () {
         Route::get('/active/{id}', [ProductController::class, 'ProductActive'])->name('product.active');
         Route::get('/delete/{id}', [ProductController::class, 'ProductDelete'])->name('product.delete');
     });
-    //------------------------------------product routes end here-----------------------------------
+    //------------------------------------End-product routes end here-----------------------------------
+    //------------------------------------ start-coupon routes end here-----------------------------------
+    Route::prefix('coupon')->group(function () {
+        Route::get('/view', [CouponController::class, 'couponView'])->name('coupon.manage');
+        Route::post('/store', [CouponController::class, 'couponStore'])->name('coupon.store');
+        Route::get('/edit/{id}', [CouponController::class, 'couponEdit'])->name('coupon.edit');
+        Route::put('/update/{id}', [CouponController::class, 'couponUpdate'])->name('coupon.update');
+        Route::delete('/delete/{id}', [CouponController::class, 'couponDelete'])->name('coupon.delete');
+        //------------------------------------ end-coupon routes end here----------------------------
+    });
+    // ================= SHIPPING ROUTES =================
+
+    // Divisions
+    Route::prefix('shipping')->group(function () {
+
+        // Divisions
+        Route::get('/divisions', [DivisionController::class, 'index'])->name('division.index');
+        Route::post('/divisions/store', [DivisionController::class, 'store'])->name('division.store');
+        Route::get('/divisions/edit/{id}', [DivisionController::class, 'edit'])->name('division.edit');
+        Route::PUT('/divisions/update/{id}', [DivisionController::class, 'update'])->name('division.update');
+        Route::delete('/divisions/delete/{id}', [DivisionController::class, 'destroy'])->name('division.delete');
+
+        // Districts
+        Route::get('/districts', [DistrictController::class, 'index'])->name('district.index');
+        Route::post('/districts/store', [DistrictController::class, 'store'])->name('district.store');
+        Route::get('/districts/edit/{id}', [DistrictController::class, 'edit'])->name('district.edit');
+        Route::PUT('/districts/update/{id}', [DistrictController::class, 'update'])->name('district.update');
+        Route::delete('/districts/delete/{id}', [DistrictController::class, 'destroy'])->name('district.delete');
+
+        // States
+        Route::get('/states', [StateController::class, 'index'])->name('state.index');
+        Route::post('/states/store', [StateController::class, 'store'])->name('state.store');
+        Route::get('/states/edit/{id}', [StateController::class, 'edit'])->name('state.edit');
+        Route::PUT('/states/update/{id}', [StateController::class, 'update'])->name('state.update');
+        Route::delete('/states/delete/{id}', [StateController::class, 'destroy'])->name('state.delete');
+
+        //------//
+        Route::get('/get-districts/ajax/{division_id}', [StateController::class, 'getDistricts']);
+        Route::get('/get-states/ajax/{district_id}', [StateController::class, 'GetStates']);
+    });
 });
 //--------------------End all admin route here-----------------------------------
+
 //-----------------frontend guest routes-----------------------------
 Route::get('/', [IndexController::class, 'index'])->name('home');
 Route::get('/lang/hindi', [LanguageController::class, 'hindi'])->name('hindi.language');
