@@ -5,13 +5,18 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\AdminProfileController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Backend\BrandController;
+use App\Http\Controllers\Backend\Shipping\DivisionController;
+use App\Http\Controllers\Backend\Shipping\DistrictController;
+use App\Http\Controllers\Backend\Shipping\StateController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\SliderController;
+use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Frontend\LanguageController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\User\WishListController;
+use App\Http\Controllers\User\CartPageController;
 
 
 
@@ -88,9 +93,49 @@ Route::middleware(['auth.admin:admin', 'verified'])->group(function () {
         Route::get('/active/{id}', [ProductController::class, 'ProductActive'])->name('product.active');
         Route::get('/delete/{id}', [ProductController::class, 'ProductDelete'])->name('product.delete');
     });
-    //------------------------------------product routes end here-----------------------------------
+    //------------------------------------End-product routes end here-----------------------------------
+    //------------------------------------ start-coupon routes end here-----------------------------------
+    Route::prefix('coupon')->group(function () {
+        Route::get('/view', [CouponController::class, 'couponView'])->name('coupon.manage');
+        Route::post('/store', [CouponController::class, 'couponStore'])->name('coupon.store');
+        Route::get('/edit/{id}', [CouponController::class, 'couponEdit'])->name('coupon.edit');
+        Route::put('/update/{id}', [CouponController::class, 'couponUpdate'])->name('coupon.update');
+        Route::delete('/delete/{id}', [CouponController::class, 'couponDelete'])->name('coupon.delete');
+        //------------------------------------ end-coupon routes end here----------------------------
+    });
+    // ================= SHIPPING ROUTES =================
+
+    // Divisions
+    Route::prefix('shipping')->group(function () {
+
+        // Divisions
+        Route::get('/divisions', [DivisionController::class, 'index'])->name('division.index');
+        Route::post('/divisions/store', [DivisionController::class, 'store'])->name('division.store');
+        Route::get('/divisions/edit/{id}', [DivisionController::class, 'edit'])->name('division.edit');
+        Route::PUT('/divisions/update/{id}', [DivisionController::class, 'update'])->name('division.update');
+        Route::delete('/divisions/delete/{id}', [DivisionController::class, 'destroy'])->name('division.delete');
+
+        // Districts
+        Route::get('/districts', [DistrictController::class, 'index'])->name('district.index');
+        Route::post('/districts/store', [DistrictController::class, 'store'])->name('district.store');
+        Route::get('/districts/edit/{id}', [DistrictController::class, 'edit'])->name('district.edit');
+        Route::PUT('/districts/update/{id}', [DistrictController::class, 'update'])->name('district.update');
+        Route::delete('/districts/delete/{id}', [DistrictController::class, 'destroy'])->name('district.delete');
+
+        // States
+        Route::get('/states', [StateController::class, 'index'])->name('state.index');
+        Route::post('/states/store', [StateController::class, 'store'])->name('state.store');
+        Route::get('/states/edit/{id}', [StateController::class, 'edit'])->name('state.edit');
+        Route::PUT('/states/update/{id}', [StateController::class, 'update'])->name('state.update');
+        Route::delete('/states/delete/{id}', [StateController::class, 'destroy'])->name('state.delete');
+
+        //------//
+        Route::get('/get-districts/ajax/{division_id}', [StateController::class, 'getDistricts']);
+        Route::get('/get-states/ajax/{district_id}', [StateController::class, 'GetStates']);
+    });
 });
 //--------------------End all admin route here-----------------------------------
+
 //-----------------frontend guest routes-----------------------------
 Route::get('/', [IndexController::class, 'index'])->name('home');
 Route::get('/lang/hindi', [LanguageController::class, 'hindi'])->name('hindi.language');
@@ -109,19 +154,21 @@ Route::post('/cart/data/store/{id}', [CartController::class, 'addToCart']);
 Route::get('/product/mini/cart/', [CartController::class, 'AddMiniCart']);
 // Remove mini cart
 Route::get('/minicart/product-remove/{rowId}', [CartController::class, 'miniCartRemove']);
-// Add to Wishlist
-Route::post('/add-to-wishlist/{product_id}', [CartController::class, 'addToWishList']);
-//wishlist
-Route::get('/my-wishlist', [WishListController::class, 'viewWishList'])->name('wishlist');
-//load wishlist products-----
-Route::get('/get-WishList-product', [WishListController::class, 'GetWishlistProduct']);
-// Remove wishlist
-Route::get('/wishlist-remove/{id}', [WishListController::class, 'RemoveWishlistProduct']);
+//my-cart-view
+Route::get('/user/my-cart', [CartPageController::class, 'viewMyCart'])->name('mycart');
+//load my-cart products-----
+Route::get('/user/get-mycart-product', [CartPageController::class, 'GetMyCartProduct']);
+// Remove my-cart
+Route::get('/user/mycart-remove/{id}', [CartPageController::class, 'RemoveMyCartProduct']);
+//CartIncrement
+Route::get('/cart-increment/{rowId}', [CartPageController::class, 'CartIncrement']);
+//CartDecrement
+Route::get('/cart-decrement/{rowId}', [CartPageController::class, 'CartDecrement']);
 
 
 
 
-//---------------------------all  auth -index- route here-----------------------------------
+// ---------------------------all  auth -index- route here-----------------------------------
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/user/logout', [IndexController::class, 'logout'])->name('user.logout');
     Route::get('/user/profile', [IndexController::class, 'userProfile'])->name('user.profile');
@@ -130,14 +177,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/user/update-password', [IndexController::class, 'userUpdatePassword'])->name('user.update-password');
 
     // Add to Wishlist
-    Route::post('/user/add-to-wishlist/{product_id}', [CartController::class, 'addToWishList']);
-    //wishlist
+    Route::post('/user/add-to-wishlist/{product_id}', [WishListController::class, 'addToWishList']);
+    //wishlist-view
     Route::get('/user/my-wishlist', [WishListController::class, 'viewWishList'])->name('wishlist');
     //load wishlist products-----
     Route::get('/user/get-WishList-product', [WishListController::class, 'GetWishlistProduct']);
     // Remove wishlist
     Route::get('/user/wishlist-remove/{id}', [WishListController::class, 'RemoveWishlistProduct']);
-    //-----------------------end index all route-----------------------------------
+
+    //-----------------------end- auth- index- all route-----------------------------------
 });
 //---------------------------------------user dashboard route here--------------------------------------
 Route::middleware(['auth', 'verified'])->get('/dashboard', function () {

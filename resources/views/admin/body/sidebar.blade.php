@@ -39,7 +39,8 @@ $route = Route::current()->getName();
             </a>
             <ul class="treeview-menu">
                <li class="{{ $route == 'all.brands' ? 'active' : '' }}"><a href="{{ route('all.brands') }}"><i
-                        class="ti-more "></i>All Brands</a></li>
+                        class="ti-more "></i>All Brands</a>
+               </li>
 
             </ul>
          </li>
@@ -88,8 +89,41 @@ $route = Route::current()->getName();
                </span>
             </a>
             <ul class="treeview-menu">
-               <li class="{{ $route == 'manage-slider' ? 'active' : '' }}"><a href="{{ route('all.sliders') }}"><i
+               <li class="{{ $route == 'all.sliders' ? 'active' : '' }}"><a href="{{ route('all.sliders') }}"><i
                         class="ti-more"></i>Manage Slider</a></li>
+            </ul>
+         </li>
+
+         <li class="treeview {{ $prifix == '/coupon' ? 'active' : '' }}  ">
+            <a href="#">
+               <i data-feather="file"></i>
+               <span>Coupon</span>
+               <span class="pull-right-container">
+                  <i class="fa fa-angle-right pull-right"></i>
+               </span>
+            </a>
+            <ul class="treeview-menu">
+               <li class="{{ $route == 'coupon.manage' ? 'active' : '' }}"><a href="{{ route('coupon.manage') }}"><i
+                        class="ti-more"></i>Manage Coupon</a></li>
+            </ul>
+         </li>
+
+         <li class="treeview {{ $prifix == '/shipping' ? 'active' : '' }}">
+            <a href="#">
+               <i data-feather="mail"></i> <span>shipping</span>
+               <span class="pull-right-container">
+                  <i class="fa fa-angle-right pull-right"></i>
+               </span>
+            </a>
+            <ul class="treeview-menu">
+               <li class="{{ $route == 'division.index' ? 'active' : '' }}"><a href="{{ route('division.index') }}"><i
+                        class="ti-more "></i>All Divisions</a></li>
+               <li class="{{ $route == 'district.index' ? 'active' : '' }}"><a href="{{ route('district.index') }}"><i
+                        class="ti-more"></i>All Districtis</a>
+               </li>
+               <li class="{{ $route == 'state.index' ? 'active' : '' }}"><a href="{{ route('state.index') }}"><i
+                        class="ti-more "></i>All
+                     States</a></li>
             </ul>
          </li>
 
