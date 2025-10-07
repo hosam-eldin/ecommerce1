@@ -26,7 +26,7 @@
                            My Cart
                         @endif
                      </a></li>
-                  <li><a href="#"><i class="icon fa fa-check"></i>
+                  <li><a href="{{ route('checkout') }}"><i class="icon fa fa-check"></i>
                         @if (session()->get('language') == 'hindi')
                            चेक आउट
                         @else

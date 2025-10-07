@@ -73,7 +73,7 @@ class StateController extends Controller
 
     public function GetStates($district_id)
     {
-        $states = ShipState::where('district_id', $district_id)->orderBy('district_name_en', 'ASC')->get();
+        $states = ShipState::where('district_id', $district_id)->orderBy('state_name_en', 'ASC')->get();
         return response()->json($states);
     } //end method
 }
