@@ -17,6 +17,7 @@ use App\Http\Controllers\Frontend\LanguageController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\User\WishListController;
 use App\Http\Controllers\User\CartPageController;
+use App\Http\Controllers\User\CheckoutController;
 
 
 
@@ -166,6 +167,8 @@ Route::get('/user/mycart-remove/{id}', [CartPageController::class, 'RemoveMyCart
 Route::get('/cart-increment/{rowId}', [CartPageController::class, 'CartIncrement']);
 //CartDecrement
 Route::get('/cart-decrement/{rowId}', [CartPageController::class, 'CartDecrement']);
+//checkout-view----------------------
+Route::get('/checkout', [CartPageController::class, 'CheckoutCreate'])->name('checkout');
 
 
 
@@ -186,6 +189,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/user/get-WishList-product', [WishListController::class, 'GetWishlistProduct']);
     // Remove wishlist
     Route::get('/user/wishlist-remove/{id}', [WishListController::class, 'RemoveWishlistProduct']);
+    //checkout---------------
+    Route::post('/checkout/store', [CheckoutController::class, 'CheckoutStore'])->name('checkout.store');
 
     //-----------------------end- auth- index- all route-----------------------------------
 });
