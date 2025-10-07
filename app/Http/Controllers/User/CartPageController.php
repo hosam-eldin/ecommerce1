@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\ShipDivision;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 use App\Models\Coupon;
@@ -43,7 +45,7 @@ class CartPageController extends Controller
         return response()->json(['success' => 'Product Remove from Cart']);
     } //------------------- end method ----------------------------//
 
-    // Cart Increment 
+    // Cart Increment ---------------------------------------------
     public function CartIncrement($rowId)
     {
         $row = Cart::get($rowId);
@@ -62,9 +64,9 @@ class CartPageController extends Controller
         }
 
         return response()->json('increment');
-    } // end mehtod 
+    } // end mehtod ----------------------------------------
 
-    // Cart Decrement  
+    // Cart Decrement  -------------------------------------------
     public function CartDecrement($rowId)
     {
 
@@ -84,7 +86,27 @@ class CartPageController extends Controller
         }
 
         return response()->json('Decrement');
-    } // end mehtod 
+    } // end mehtod -------------------------------------
+
+    // Checkout Method-------------------------------- 
+    public function CheckoutCreate()
+    {
+        if (Auth::check()) {
+            if (Cart::total() > 0) {
+                $carts = Cart::content();
+                $cartQty = Cart::count();
+                $cartTotal = Cart::total();
+                $divisions = ShipDivision::orderBy('division_name_en', 'ASC')->get();
+
+                return view('frontend.checkout.checkout_view', compact('carts', 'cartQty', 'cartTotal', 'divisions'));
+            } else {
+                return redirect()->to('/')->with('error', 'Shopping At list One Product');
+            }
+        } else {
+
+            return redirect()->guest(route('login'))->with('error', 'you should login first');
+        }
+    } // end method ------------------------
 
 
 
