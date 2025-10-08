@@ -18,6 +18,7 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\User\WishListController;
 use App\Http\Controllers\User\CartPageController;
 use App\Http\Controllers\User\CheckoutController;
+use App\Http\Controllers\User\StripeController;
 
 
 
@@ -106,8 +107,6 @@ Route::middleware(['auth.admin:admin', 'verified'])->group(function () {
         Route::post('/coupon-apply', [CouponController::class, 'CouponApply']);
         Route::get('/coupon-calculation', [CouponController::class, 'CouponCalculation']);
         Route::get('/coupon-remove', [CouponController::class, 'CouponRemove']);
-
-
         //------------------------------------ end-coupon routes end here----------------------------
     });
     // ================= SHIPPING ROUTES =================
@@ -168,29 +167,30 @@ Route::get('/cart-increment/{rowId}', [CartPageController::class, 'CartIncrement
 //CartDecrement
 Route::get('/cart-decrement/{rowId}', [CartPageController::class, 'CartDecrement']);
 //checkout-view----------------------
-Route::get('/checkout', [CartPageController::class, 'CheckoutCreate'])->name('checkout');
+Route::get('user/checkout', [CartPageController::class, 'CheckoutCreate'])->name('checkout');
 
 
 
 
 // ---------------------------all  auth -index- route here-----------------------------------
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/user/logout', [IndexController::class, 'logout'])->name('user.logout');
-    Route::get('/user/profile', [IndexController::class, 'userProfile'])->name('user.profile');
-    Route::post('/user/profile/store', [IndexController::class, 'userProfileStore'])->name('user.profile.store');
-    Route::get('/user/change-password', [IndexController::class, 'userChangePassword'])->name('user.change-password');
-    Route::post('/user/update-password', [IndexController::class, 'userUpdatePassword'])->name('user.update-password');
-
+Route::group(['prefix' => 'user', 'middleware' => ['auth', 'verified']], function () {
+    Route::get('/logout', [IndexController::class, 'logout'])->name('user.logout');
+    Route::get('/profile', [IndexController::class, 'userProfile'])->name('user.profile');
+    Route::post('/profile/store', [IndexController::class, 'userProfileStore'])->name('user.profile.store');
+    Route::get('/change-password', [IndexController::class, 'userChangePassword'])->name('user.change-password');
+    Route::post('/update-password', [IndexController::class, 'userUpdatePassword'])->name('user.update-password');
     // Add to Wishlist
-    Route::post('/user/add-to-wishlist/{product_id}', [WishListController::class, 'addToWishList']);
+    Route::post('/add-to-wishlist/{product_id}', [WishListController::class, 'addToWishList']);
     //wishlist-view
-    Route::get('/user/my-wishlist', [WishListController::class, 'viewWishList'])->name('wishlist');
+    Route::get('/my-wishlist', [WishListController::class, 'viewWishList'])->name('wishlist');
     //load wishlist products-----
-    Route::get('/user/get-WishList-product', [WishListController::class, 'GetWishlistProduct']);
+    Route::get('/get-WishList-product', [WishListController::class, 'GetWishlistProduct']);
     // Remove wishlist
-    Route::get('/user/wishlist-remove/{id}', [WishListController::class, 'RemoveWishlistProduct']);
+    Route::get('/wishlist-remove/{id}', [WishListController::class, 'RemoveWishlistProduct']);
     //checkout---------------
     Route::post('/checkout/store', [CheckoutController::class, 'CheckoutStore'])->name('checkout.store');
+    //Stripe-order
+    Route::post('/stripe/order', [StripeController::class, 'StripeOrder'])->name('stripe.order');
 
     //-----------------------end- auth- index- all route-----------------------------------
 });

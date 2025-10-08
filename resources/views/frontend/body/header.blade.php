@@ -184,7 +184,7 @@
                                  @endif
                               </span><span class='price' id="cartSubTotal"> </span> </div>
                            <div class="clearfix"></div>
-                           <a href="checkout.html" class="btn btn-upper btn-primary btn-block m-t-20">
+                           <a href="{{ route('checkout') }}" class="btn btn-upper btn-primary btn-block m-t-20">
                               @if (session()->get('language') == 'hindi')
                                  चेक आउट
                               @else
