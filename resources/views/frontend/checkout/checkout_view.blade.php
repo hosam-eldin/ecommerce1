@@ -67,8 +67,13 @@
                                              <span>*</span></label>
                                           <input type="text" name="post_code"
                                              class="form-control unicase-form-control text-input" id="exampleInputEmail1"
-                                             placeholder="Post Code" required="">
+                                             placeholder="Post Code">
                                        </div> <!-- // end form group  -->
+
+
+                                       @if (session('error'))
+                                          <div class="alert alert-danger">{{ session('error') }}</div>
+                                       @endif
                                     </div>
                                     <div class="col-md-6 col-sm-6 already-registered-login">
 
@@ -219,6 +224,7 @@
    </div><!-- /.body-content -->
 
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
    <script>
       $(document).ready(function() {
 
